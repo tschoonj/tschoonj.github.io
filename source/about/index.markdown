@@ -2,8 +2,8 @@
 layout: page
 title: "about"
 date: 2013-07-08 18:45
-comments: true
-sharing: true
+comments: false
+sharing: no
 footer: true
 ---
 
