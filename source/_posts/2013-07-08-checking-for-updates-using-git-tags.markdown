@@ -18,7 +18,7 @@ Since my goal is to keep the platform specific code as low as possible (#ifdef's
 
 ## Getting the tags with curl
 
-In a moment of rare clarity, I came up with the idea of using git tags for this. Like most people, I am using the tags to indicate releases, and as a rule I include the version number in the tagname (e.g. XMI-MSIM-1.0). My method consists of having a routine called `check_for_updates` (what's in name?), download the list of tags from github.com (using the [github v3 API for tags](http://developer.github.com/v3/git/tags/)). As I was writing (this part of) my application XMI-MSIM in C, I was looking for a library that could easily accomplish this. The quest yielded [libcurl](http://curl.haxx.se), an extremely versatile tool for transferring data using many, many protocols. The code I used for this was something like (full code at the end of this post):
+In a rare moment of clarity, I came up with the idea of using git tags for this. Like most people, I am using the tags to indicate releases, and as a rule I include the version number in the tagname (e.g. XMI-MSIM-1.0). My method consists of having a routine called `check_for_updates` (what's in name?), download the list of tags from github.com (using the [github v3 API for tags](http://developer.github.com/v3/git/tags/)). As I was writing (this part of) my application XMI-MSIM in C, I was looking for a library that could easily accomplish this. The quest yielded [libcurl](http://curl.haxx.se), an extremely versatile tool for transferring data using many, many protocols. The code I used for this was something like (full code at the end of this post):
 
 {% codeblock lang:c %}
 
