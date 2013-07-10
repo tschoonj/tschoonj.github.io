@@ -4,7 +4,7 @@
   <title><![CDATA[The Code Dungeon]]></title>
   <link href="http://tschoonj.github.io/atom.xml" rel="self"/>
   <link href="http://tschoonj.github.io/"/>
-  <updated>2013-07-09T16:33:22+01:00</updated>
+  <updated>2013-07-10T11:05:10+01:00</updated>
   <id>http://tschoonj.github.io/</id>
   <author>
     <name><![CDATA[Tom Schoonjans]]></name>
@@ -30,7 +30,7 @@ However, this would mean a different solution for my Windows build&hellip;</p>
 
 <h2>Getting the tags with curl</h2>
 
-<p>In a moment of rare clarity, I came up with the idea of using git tags for this. Like most people, I am using the tags to indicate releases, and as a rule I include the version number in the tagname (e.g. XMI-MSIM-1.0). My method consists of having a routine called <code>check_for_updates</code> (what&rsquo;s in name?), download the list of tags from github.com (using the <a href="http://developer.github.com/v3/git/tags/">github v3 API for tags</a>). As I was writing (this part of) my application XMI-MSIM in C, I was looking for a library that could easily accomplish this. The quest yielded <a href="http://curl.haxx.se">libcurl</a>, an extremely versatile tool for transferring data using many, many protocols. The code I used for this was something like (full code at the end of this post):</p>
+<p>In a rare moment of clarity, I came up with the idea of using git tags for this. Like most people, I am using the tags to indicate releases, and as a rule I include the version number in the tagname (e.g. XMI-MSIM-1.0). My method consists of having a routine called <code>check_for_updates</code> (what&rsquo;s in name?), download the list of tags from github.com (using the <a href="http://developer.github.com/v3/git/tags/">github v3 API for tags</a>). As I was writing (this part of) my application XMI-MSIM in C, I was looking for a library that could easily accomplish this. The quest yielded <a href="http://curl.haxx.se">libcurl</a>, an extremely versatile tool for transferring data using many, many protocols. The code I used for this was something like (full code at the end of this post):</p>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
