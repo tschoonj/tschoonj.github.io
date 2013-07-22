@@ -2,26 +2,32 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://tschoonj.github.io/blog/2013/07/08/checking-for-updates-using-git-tags/</loc>
-        <lastmod>2013-07-20T19:37:27+02:00</lastmod>
+        <lastmod>2013-07-19T10:55:07+02:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://tschoonj.github.io/blog/2013/07/22/exporting-and-printing-a-gtkextra-plot-canvas/
+        </loc>
+        <lastmod>2013-07-22T15:23:09+02:00</lastmod>
     </url>
     <url>
         <loc>http://tschoonj.github.io/about/</loc>
-        <lastmod>2013-07-20T19:37:27+02:00</lastmod>
+        <lastmod>2013-07-16T13:50:40+02:00</lastmod>
     </url>
     <url>
         <loc>http://tschoonj.github.io/blog/archives/</loc>
-        <lastmod>2013-07-20T19:37:27+02:00</lastmod>
+        <lastmod>2013-07-22T15:23:09+02:00</lastmod>
     </url>
     <url>
         <loc>http://tschoonj.github.io/</loc>
-        <lastmod>2013-07-20T19:37:27+02:00</lastmod>
+        <lastmod>2013-07-22T15:23:09+02:00</lastmod>
     </url>
     <url>
         <loc>http://tschoonj.github.io/robots.txt</loc>
-        <lastmod>2013-07-20T19:37:27+02:00</lastmod>
+        <lastmod>2013-07-16T13:50:40+02:00</lastmod>
     </url>
     <url>
         <loc>http://tschoonj.github.io/search.html</loc>
-        <lastmod>2013-07-20T19:37:27+02:00</lastmod>
+        <lastmod>2013-07-16T13:50:40+02:00</lastmod>
     </url>
 </urlset>
