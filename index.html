@@ -9,7 +9,7 @@
   <meta name="author" content="Tom Schoonjans">
 
   
-  <meta name="description" content="The Code Dungeon. Revelations and frustrations of a coder. Jul 22nd, 2013 gtkextra Exporting and printing a GtkExtra plot canvas My software package &hellip;">
+  <meta name="description" content="The Code Dungeon. Revelations and frustrations of a coder. Sep 4th, 2013 automake autotools libtool python-bindings swig Building libtool modules: &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -119,6 +119,69 @@
   
 
 
+<i class="icon-calendar-empty"></i> <time datetime="2013-09-04T10:47:00+02:00" pubdate data-updated="true">Sep 4<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="/blog/categories/automake/"><span class="badge">automake</span></a>
+          
+          <a href="/blog/categories/autotools/"><span class="badge">autotools</span></a>
+          
+          <a href="/blog/categories/libtool/"><span class="badge">libtool</span></a>
+          
+          <a href="/blog/categories/python-bindings/"><span class="badge">python-bindings</span></a>
+          
+          <a href="/blog/categories/swig/"><span class="badge">swig</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/blog/2013/09/04/building-libtool-modules-python-bindings/">Building libtool modules: Python bindings</a></h1>
+      <p>One of the software packages (<a href="http://github.com/tschoonj/xraylib">xraylib</a>) I am working on, consists of a C-library with bindings to a number of other languages such as Python, Fortran 2003, IDL, Java, Ruby, Lua and Perl. Apart from IDL and Fortran 2003, the source code for these bindings is generated automatically using <a href="http://www.swig.org">swig</a>, although with considerable language-specific modifications to the swig interface file.</p>
+
+<p>The bindings source code afterwards needs to be compiled into a dynamically loadable library, which will then be loaded at runtime by the program whenever the user needs to use a function or variable from the bindings (actually from the underlying C-library, but exposed through the swig generated bindings).
+As a rule, each programming language that supports such dynamically loadable libraries comes with specific instructions on how to generate the libraries from the bindings source code, often using platform independent tools.</p>
+
+<p>However, these tools never seem to integrate well with autoconf and automake and lead to quite complicated Makefile.am files. A considerable more easy approach would consist on relying on libtool&rsquo;s functionality of generating these dynamically loadable libraries (called modules in the libtool documentation).
+In this series of posts I will share my experiences on generating bindings to the aforementioned languages using libtool in a relatively clear and easy way. All the code has been tested on Linux and Mac OS X. It may also work on Windows though, provided you install bash shell with the required tools.</p>
+
+<p>This first post will deal with Python.</p>
+
+
+      
+       <a href="/blog/2013/09/04/building-libtool-modules-python-bindings/">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
 <i class="icon-calendar-empty"></i> <time datetime="2013-07-22T10:24:00+02:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2013</time></h5>
           <div class="row-fluid">
           
@@ -177,7 +240,7 @@ Recently, I have become a minor contributor of this project, and I have been par
           
           <div class="row-fluid">
           
-          <a href="/blog/categories/checking for updates/"><span class="badge">checking for updates</span></a>
+          <a href="/blog/categories/automatic-updates/"><span class="badge">automatic-updates</span></a>
           
           <a href="/blog/categories/curl/"><span class="badge">curl</span></a>
           
