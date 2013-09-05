@@ -11,10 +11,10 @@ One of the software packages ([xraylib](http://github.com/tschoonj/xraylib)) I a
 The bindings source code afterwards needs to be compiled into a dynamically loadable library, which will then be loaded at runtime by the program whenever the user needs to use a function or variable from the bindings (actually from the underlying C-library, but exposed through the swig generated bindings).
 As a rule, each programming language that supports such dynamically loadable libraries comes with specific instructions on how to generate the libraries from the bindings source code, often using platform independent tools.
 
-However, these tools never seem to integrate well with autoconf and automake and lead to quite complicated Makefile.am files. A considerable more easy approach would consist on relying on libtool's functionality of generating these dynamically loadable libraries (called modules in the libtool documentation).
-In this series of posts I will share my experiences on generating bindings to the aforementioned languages using libtool in a relatively clear and easy way. All the code has been tested on Linux and Mac OS X. It may also work on Windows though, provided you install bash shell with the required tools.
+However, these tools never seem to integrate well with autoconf and automake and lead to quite complicated Makefile.am files. A considerable more easy approach would consist of relying on libtool's functionality of generating these dynamically loadable libraries (called modules in the libtool documentation).
+In this series of posts I will share my experiences on generating bindings to the aforementioned languages using libtool in a relatively clear and easy way. All the code has been tested on Linux and Mac OS X. It may also work on Windows though, provided you install a bash shell with the required tools.
 
-This first post will deal with Python.
+In this first post I will discuss Python extension modules.
 
 <!--more-->
 
