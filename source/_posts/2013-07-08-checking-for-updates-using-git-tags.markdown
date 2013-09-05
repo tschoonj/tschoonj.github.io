@@ -3,7 +3,7 @@ layout: post
 title: "Checking for updates using git tags"
 date: 2013-07-08 19:39
 comments: true
-categories: [github, git-tag, curl, json-glib, checking for updates]
+categories: [github, git-tag, curl, json-glib, automatic-updates]
 ---
 
 
