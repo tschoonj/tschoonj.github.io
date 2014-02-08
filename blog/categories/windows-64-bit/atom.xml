@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Windows 64-bit | The Code Dungeon]]></title>
   <link href="http://tschoonj.github.io/blog/categories/windows-64-bit/atom.xml" rel="self"/>
   <link href="http://tschoonj.github.io/"/>
-  <updated>2014-02-08T13:47:57+01:00</updated>
+  <updated>2014-02-08T13:56:05+01:00</updated>
   <id>http://tschoonj.github.io/</id>
   <author>
     <name><![CDATA[Tom Schoonjans]]></name>
@@ -25,6 +25,9 @@
 <p>This being said, I still needed such an installer so I wrote one based on his NSIS script, using the official 64-bit Gtk+ packages for Windows 64-bit. The only major change I introduced was dropping support for the compatibility DLLs, which were redundant anyway. I am sharing the modified NSIS script as Github Gist so start hacking away at it. This script has some dependencies, apart from the DLLs, which are necessary to build the installer. Since I didn&rsquo;t change them at all, use the files that the original developer is sharing on <a href="http://sourceforge.net/p/gtk-win/code/HEAD/tree/">sourceforge</a>.</p>
 
 <p>The installer itself can be obtained at <a href="http://lvserver.ugent.be/gtk-win64/gtk2-runtime-2.22.1-2014-02-01-ts-win64.exe.">http://lvserver.ugent.be/gtk-win64/gtk2-runtime-2.22.1-2014-02-01-ts-win64.exe.</a> If you would like to see an example on how to use this installer from within your own NSIS script, have a look at e.g. <a href="https://github.com/tschoonj/xmimsim/blob/master/nsis/xmimsim-win64.nsi.in">my XMI-MSIM Windows 64-bit installer</a>.</p>
+
+<!-- more -->
+
 
 <p>The observant reader may have noticed that the version of Gtk+ that is included is 2.22.1, which is relatively old. In the future I may become sufficiently bold and adventurous, and end up compiling the latest Gtk+ 2.24.x version myself and releasing an updated installer. If this happens, I will update this blogpost&hellip;</p>
 
