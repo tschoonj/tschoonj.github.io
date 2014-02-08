@@ -15,6 +15,8 @@ This being said, I still needed such an installer so I wrote one based on his NS
 
 The installer itself can be obtained at http://lvserver.ugent.be/gtk-win64/gtk2-runtime-2.22.1-2014-02-01-ts-win64.exe. If you would like to see an example on how to use this installer from within your own NSIS script, have a look at e.g. [my XMI-MSIM Windows 64-bit installer](https://github.com/tschoonj/xmimsim/blob/master/nsis/xmimsim-win64.nsi.in).
 
+<!-- more -->
+
 The observant reader may have noticed that the version of Gtk+ that is included is 2.22.1, which is relatively old. In the future I may become sufficiently bold and adventurous, and end up compiling the latest Gtk+ 2.24.x version myself and releasing an updated installer. If this happens, I will update this blogpost...
 
 {% gist 8882727 %}
