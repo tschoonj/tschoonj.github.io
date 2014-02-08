@@ -109,7 +109,7 @@
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2013-07-22T10:24:00+01:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2013</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2013-07-22T10:24:00+02:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2013</time></h5>
   </div>
 </header>
   <div class="row-fluid">
@@ -132,7 +132,7 @@ Recently, I have become a minor contributor of this project, and I have been par
 <p>Define a canvas widget that will be used to draw the plot later and give it dimensions that correspond to those of the <a href="http://en.wikipedia.org/wiki/ISO_216">A4 paper size standard</a>. Other sizes are also available (letter, executive and legal), and are defined in <code>gtkplotpc.h</code>.The last parameter of the <code>gtk_plot_canvas_new</code> function is the magnification, which acts a scale factor for the dimensions of the canvas, and will therefore determine the size of the widget in the application. However, it has no impact on the size of the print or the size of the exported image.
 Next, I disable the user-interaction with the canvas and its items with the call to <code>GTK_PLOT_CANVAS_UNSET_FLAGS</code>, and I define the <code>GdkColor</code>s that will be used in the plot and canvas. The last call sets explicitly the background color of the canvas to white.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -159,7 +159,7 @@ I am not entirely confident about <code>gtk_plot_new_with_size</code> though: at
 Anyway, after constructing the plot to your liking, it must be added to the <code>GtkPlotCanvas</code> that was defined in the previous section.
 This is accomplished with the calls to <code>gtk_plot_canvas_plot_new</code> and <code>gtk_plot_canvas_put_child</code>.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -210,7 +210,7 @@ This is accomplished with the calls to <code>gtk_plot_canvas_plot_new</code> and
 As with the grid in the previous section, it is possible to change the properties of the graph using a few appropriately named functions.
 This part of the code finishes by drawing and showing all widgets. I am doing this here with several calls, some of which are definitely unnecessary, but the documentation and examples of GtkExtra are pretty unclear on how to do this (especially when updating, erasing canvases, plots etc). Anyway, calling all of them seems to work just fine :&ndash;)</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -284,7 +284,7 @@ This part of the code finishes by drawing and showing all widgets. I am doing th
 
 <p>Both the printing and exporting of the canvas rely on Cairo. The most important function here is <code>gtk_plot_canvas_export_cairo</code>, which accepts a cairo context as argument and will &lsquo;paint&rsquo; the canvas on it. When printing, this cairo context is produced by <code>gtk_print_context_get_cairo_context</code>, as is shown in the following code snippet. It contains both the &lsquo;clicked&rsquo; callback for the Print button, as well as the &lsquo;draw-page&rsquo; callback for the <code>GtkPrintOperation</code>.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -389,7 +389,7 @@ This part of the code finishes by drawing and showing all widgets. I am doing th
 
 <p>The function in this example is a callback of the Save As button, and pops up a <code>GtkFileChooserDialog</code>, with three <code>GtkFileFilter</code>s, each corresponding to one of the supported fileformats. After selecting a filter and choosing the filename, a cairo surface is created for the selected filetype. Next, a cairo context is created for the surface, which will be used to paint the canvas on using <code>gtk_plot_canvas_export_cairo</code>. Multipage formats such as PostScript and PDF require the extra call to <code>cairo_show_page</code>. The function terminates after destroying the cairo surfaces and contexts.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>

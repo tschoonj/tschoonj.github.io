@@ -4,7 +4,7 @@
   <title><![CDATA[Category: json-glib | The Code Dungeon]]></title>
   <link href="http://tschoonj.github.io/blog/categories/json-glib/atom.xml" rel="self"/>
   <link href="http://tschoonj.github.io/"/>
-  <updated>2014-01-29T17:44:13+00:00</updated>
+  <updated>2014-02-08T13:47:57+01:00</updated>
   <id>http://tschoonj.github.io/</id>
   <author>
     <name><![CDATA[Tom Schoonjans]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Checking for updates using git tags]]></title>
     <link href="http://tschoonj.github.io/blog/2013/07/08/checking-for-updates-using-git-tags/"/>
-    <updated>2013-07-08T19:39:00+01:00</updated>
+    <updated>2013-07-08T19:39:00+02:00</updated>
     <id>http://tschoonj.github.io/blog/2013/07/08/checking-for-updates-using-git-tags</id>
     <content type="html"><![CDATA[<p>At some point during the development of version 2.0 of my software package <a href="http://github.com/tschoonj/xmimsim">XMI-MSIM</a>, I decided to implement a routine that would allow for the program to check if newer versions (updates) were available. This would be extremely useful for the users of the Windows and Mac OS X builds of my package, since these operating systems do not come with package-management tools as most Linux distributions do (I am staying far away from Mac App Store and Windows store as I am not willing to pay their developer fees).</p>
 
@@ -32,7 +32,7 @@ However, this would mean a different solution for my Windows build&hellip;</p>
 
 <p>In a rare moment of clarity, I came up with the idea of using git tags for this. Like most people, I am using the tags to indicate releases, and as a rule I include the version number in the tagname (e.g. XMI-MSIM-1.0). My method consists of having a routine called <code>check_for_updates</code> (what&rsquo;s in a name?), download the list of tags from github.com (using the <a href="http://developer.github.com/v3/git/tags/">github v3 API for tags</a>). As I was writing (this part of) my application XMI-MSIM in C, I was looking for a library that could easily accomplish this. The quest yielded <a href="http://curl.haxx.se">libcurl</a>, an extremely versatile tool for transferring data using many, many protocols. The code I used for this was something like (full code at the end of this post):</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -120,7 +120,7 @@ However, this would mean a different solution for my Windows build&hellip;</p>
 
 <p>The buffer that is returned in <code>chunk</code>, contains JSON code. To parse this, I used the Json-Glib library, a logical choice since my project is written in Gtk+ anyway&hellip; Code extract:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
