@@ -115,3 +115,5 @@ navigation:
 - text: About
   url: /about/index.html
 
+gems:
+- jekyll-sitemap
