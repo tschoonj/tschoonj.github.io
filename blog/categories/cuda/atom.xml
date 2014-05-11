@@ -4,7 +4,7 @@
   <title><![CDATA[Category: CUDA | The Code Dungeon]]></title>
   <link href="http://tschoonj.github.io/blog/categories/cuda/atom.xml" rel="self"/>
   <link href="http://tschoonj.github.io/"/>
-  <updated>2014-05-10T17:35:26+02:00</updated>
+  <updated>2014-05-11T10:35:47+02:00</updated>
   <id>http://tschoonj.github.io/</id>
   <author>
     <name><![CDATA[Tom Schoonjans]]></name>
@@ -34,8 +34,8 @@
 <h2>Building the library</h2>
 
 <p>Compiling CUDA code into a library and then linking this library into an executable is not a trivial task, which becomes clear after reading through the <a href="http://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html#using-separate-compilation-in-cuda">CUDA documentation on separate compilation</a>.
-First of all, we can only create static libraries: the device linker will just ignore dynamic libraries.
-This is not nearly as bad is at sounds: it will make the Makefile.am considerably simpler since we will be able to avoid using libtool this way. Libtool would really make things difficult here since we have to use the nvcc command with its non-standard options and have to define custom compilation rules for our source code files, at least assuming you follow the convention of giving your CUDA source codes the .cu extension. In my case I ended up with this code:</p>
+First of all, we can only create static libraries.
+This is not nearly as bad is at sounds: it will make the Makefile.am considerably simpler since we will be able to avoid using libtool this way. Libtool would really make things difficult here since we have to use the nvcc command with its non-standard options and have to define custom compilation rules for our source code files, at least assuming you follow the convention of giving your CUDA source files the .cu extension. In my case I ended up with this code:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -119,7 +119,7 @@ This is not nearly as bad is at sounds: it will make the Makefile.am considerabl
 </span><span class='line'>&lt;p&gt;endif
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>Note how I disabled libtool here: I included the <code>lib_LIBRARIES</code> variable instead of <code>lib_LTLIBRARIES</code>. These two letters difference will ensure that libtool is not being used!
+<p>Note how I disabled libtool here: I included the <code>lib_LIBRARIES</code> variable instead of <code>lib_LTLIBRARIES</code>. This two letter difference will ensure that libtool is not being used!
 Two other things really set this file apart from typical Makefile.am&rsquo;s:</p>
 
 <ol>
@@ -136,7 +136,7 @@ Two other things really set this file apart from typical Makefile.am&rsquo;s:</p
 
 <h2>Linking an executable with the library</h2>
 
-<p>xraylib contains an example folder with a Makefile.am that will handle the compilation and running of the examples whenever <code>make check</code> is invoked after successful building of the core library and its bindings.
+<p>xraylib contains an example folder with a Makefile.am that will handle the compilation and running of the examples whenever <code>make check</code> is invoked after successful building of the core library and its bindings. The example contains both device (CUDA kernels that use the device functions) as well as host code to launch the kernels and handle the I/O with the GPU.
 Here are the relevant sections of this file that deal with the cuda bindings example:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -187,7 +187,7 @@ Here are the relevant sections of this file that deal with the cuda bindings exa
 
 <p>It&rsquo;s quite similar to the Makefile.am for the static library: the exact same build rule is required to compile the CUDA source code. Interesting is the <code>xrlcudalink.o</code> build rule which turns out to be essential to link the device code in the example with the device code in the library. The resulting file after linking needs to be added to the <code>LDADD</code> command to ensure it ends up in the eventual executable. I am not overriding the linker here, so the default one will be used which is just fine.</p>
 
-<p>I have tested this on Mac OS X Mavericks and Linux Centos 6.5, both with CUDA 6.0 installed. Soon I will also give this a try on Windows 7, so expect an update.</p>
+<p>I have tested this on Mac OS X Mavericks and Linux Centos 6.5, both with CUDA 6.0 installed. Soon I will also give this a try on Windows 7, so expect an update soon.</p>
 
 <p><div><script src='https://gist.github.com/a3b1c346d1cef1cf2a23.js'></script>
 <noscript><pre><code>##### 
