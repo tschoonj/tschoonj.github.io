@@ -6,7 +6,7 @@ comments: true
 categories: [Gtk2, MinGW-w64, runtime installer, Windows 64-bit]
 ---
 
-**Update: this post has been largely superseded by http://tschoonj.github.io/blog/2014/09/29/gtk2-64-bit-windows-runtime-environment-installer-now-on-github** 
+**Update: this post has been largely superseded by http://tschoonj.github.io/blog/2014/09/29/gtk2-64-bit-windows-runtime-environment-installer-now-on-github **
 
 
 As I already mentioned in my [last post](http://tschoonj.github.io/blog/2014/01/29/building-a-64-bit-version-of-hdf5-with-mingw-w64/), I have been busy compiling software with MinGW-w64 for the Windows 64-bit platform.f. One of the packages I rely on is [Gtk+](http://www.gtk.org) (version 2 for now), and its many dependencies. Fortunately however, the [Gtk+ website](http://www.gtk.org/download/win64.php) offers binaries for this architecture, so I didn't have to bother compiling them myself.
