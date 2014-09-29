@@ -4,7 +4,7 @@
   <title><![CDATA[Category: swig | The Code Dungeon]]></title>
   <link href="http://tschoonj.github.io/blog/categories/swig/atom.xml" rel="self"/>
   <link href="http://tschoonj.github.io/"/>
-  <updated>2014-05-12T18:51:36+02:00</updated>
+  <updated>2014-09-29T13:23:12+01:00</updated>
   <id>http://tschoonj.github.io/</id>
   <author>
     <name><![CDATA[Tom Schoonjans]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Building libtool modules: Python bindings]]></title>
     <link href="http://tschoonj.github.io/blog/2013/09/04/building-libtool-modules-python-bindings/"/>
-    <updated>2013-09-04T10:47:00+02:00</updated>
+    <updated>2013-09-04T10:47:00+01:00</updated>
     <id>http://tschoonj.github.io/blog/2013/09/04/building-libtool-modules-python-bindings</id>
     <content type="html"><![CDATA[<p>One of the software packages (<a href="http://github.com/tschoonj/xraylib">xraylib</a>) I am working on, consists of a C-library with bindings to a number of other languages such as Python, Fortran 2003, IDL, Java, Ruby, Lua and Perl. Apart from IDL and Fortran 2003, the source code for these bindings is generated automatically using <a href="http://www.swig.org">swig</a>, although with considerable language-specific modifications to the swig interface file.</p>
 

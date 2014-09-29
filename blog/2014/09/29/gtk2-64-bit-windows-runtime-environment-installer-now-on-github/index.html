@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: CUDA - The Code Dungeon</title>
+  <title>Gtk2 64-bit Windows Runtime Environment Installer: now on GitHub! - The Code Dungeon</title>
   <meta name="author" content="Tom Schoonjans">
 
    
-  <meta name="description" content="Category: CUDA">
+  <meta name="description" content="">
   
   <meta name="keywords" content="">
 
@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tschoonj.github.ioblog/categories/cuda">
+  <link rel="canonical" href="http://tschoonj.github.io/blog/2014/09/29/gtk2-64-bit-windows-runtime-environment-installer-now-on-github">
   <link href="/favicon.png" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
@@ -93,60 +93,111 @@
   <div class="container" id="main">
       <div class="row-fluid">
         <div id="content">
-          <article role="article">
+          <div>
+<article class="hentry" role="article">
   
+
   <header>
-    <div class="jumbotron">
-      Category: CUDA
-    </div>
-    
-  </header>
-  
-  <div id="blog-archives" class="category">
+  <div class="jumbotron">
+    Gtk2 64-bit Windows Runtime Environment Installer: Now on GitHub!
+	<h5>
+
+
+
+
+
+
+
 
   
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2014-09-29T12:33:58+01:00" pubdate data-updated="true">Sep 29<span>th</span>, 2014</time></h5>
+  </div>
+</header>
   <div class="row-fluid">
-    <div class="span1">
-  	
-  	
-  	  
-  	    <h2>2014</h2>
-  	
-    </div>
-    <div class="span11">
-      <article>
-  	
-<div class="row-fluid">
-	<div class="span1">
-		<h1 class="date-time"><time datetime="2014-05-10T14:08:11+01:00" pubdate><span class='month'>May</span> <span class='day'>10</span><span class='year'><!--2014--></span></time></h1>
-	</div>
-	<div class="span10">
-		<h1><a href="/blog/2014/05/10/building-a-cuda-device-function-library-with-autotools/">Building a CUDA device function library with autotools</a></h1>
-	</div>
-</div>
+    <div class="span12">
+      <p>As predicted in my <a href="http://tschoonj.github.io/blog/2014/02/08/gtk2-64-bit-windows-runtime-environment-installer/">first post</a> on the Gtk2 64-bit Windows Runtime Environment Installer, I have indeed ventured into compiling Gtk (2.24.24) and all its dependencies, mainly because I was getting increasingly unhappy with the old Gtk 2.22.1 based bundle that <a href="http://www.gtk.org/download/win64.php">is being distributed</a> by the Gtk project. It was in fact this very bundle that I was using to generate the installer I announced in my first post on this subject.</p>
 
-<div class="row-fluid">
-	<div class="span1">
-	</div>
-	<div class="span10">
-		
+<p>So, after spending about 10 hours of compiling (and recompiling a couple of times when I didn&rsquo;t get the configure options right) of more than a dozen software packages, I ended up with a fully working (at least until now&hellip;) collection of DLLs. I updated the code from my initial installer to include the new DLLs and uploaded the new installer <a href="http://lvserver.ugent.be/gtk-win64/">here</a>. I also uploaded a zip-file (sdk) containing all executables, DLLs, linking libraries (.dll.a) and headers, that can be used by anyone not willing to replicate my compilation effort. In fact I recommend that people using this installer to distribute the Gtk runtime along with their own program, to compile and link against this sdk, in order to avoid any link issues at runtime&hellip;</p>
 
-		<footer class="archive">
-		  <span class="categories">posted in <a class='category' href='/blog/categories/cuda/'>CUDA</a>, <a class='category' href='/blog/categories/automake/'>automake</a>, <a class='category' href='/blog/categories/autotools/'>autotools</a></span>
-		</footer>
-		
-	</div>
-</div>
+<p>You may notice that I did not use the exact same dependencies in my compilation stack as those offered by the official Gtk bundle. I followed the <a href="http://hexchat.github.io/gtk-win32/">Hexchat flowchart</a> and ended up with additional dependencies of libffi and harfbuzz. libexpat was replaced by libxml2. This explains why the new installer is considerably larger than the previous one.</p>
 
+<p>Last but not least, I forked the original repository of the installer from <a href="http://sourceforge.net/projects/gtk-win/">its sourceforge</a> repository and created my own personal copy on <a href="https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer">GitHub</a>. Check the README file for more information.</p>
 
-  	</article>
     </div>
   </div>
 
+
+
+  <footer>
+    <hr>
+    
+    <div class="row-fluid">
+      
+      <div class="span6">
+        <p class="meta">
+        
+        
+
+
+
+  <a href="/blog/categories/gtk2/"><span class="badge">Gtk2</span></a>
+
+  <a href="/blog/categories/mingw-w64/"><span class="badge">MinGW-w64</span></a>
+
+  <a href="/blog/categories/windows-64-bit/"><span class="badge">Windows 64-bit</span></a>
+
+  <a href="/blog/categories/github/"><span class="badge">github</span></a>
+
+  <a href="/blog/categories/runtime-installer/"><span class="badge">runtime installer</span></a>
+
+
+
+
+        </p>
+      </div>
+      
+      <div class="span6 social-sharing">
+        <div class="sharing">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+  
+  
+  <a class="addthis_button_tweet"></a>
+  
+  
+  <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
 </div>
 
+      </div>
+      
+      
+    </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <p class="meta">
+          
+            <a class="basic-alignment left" href="/blog/2014/05/10/building-a-cuda-device-function-library-with-autotools/" title="Previous Post: Building a CUDA device function library with autotools">&laquo; Building a CUDA device function library with autotools</a>
+          
+          
+        </p>
+      </div>
+    </div>
+  </footer>
 </article>
 
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
 
 
 
@@ -169,7 +220,10 @@
       var disqus_shortname = 'thecodedungeon';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tschoonj.github.io/blog/2014/09/29/gtk2-64-bit-windows-runtime-environment-installer-now-on-github/';
+        var disqus_url = 'http://tschoonj.github.io/blog/2014/09/29/gtk2-64-bit-windows-runtime-environment-installer-now-on-github/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

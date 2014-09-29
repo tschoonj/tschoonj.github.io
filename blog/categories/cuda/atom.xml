@@ -4,7 +4,7 @@
   <title><![CDATA[Category: CUDA | The Code Dungeon]]></title>
   <link href="http://tschoonj.github.io/blog/categories/cuda/atom.xml" rel="self"/>
   <link href="http://tschoonj.github.io/"/>
-  <updated>2014-05-12T18:51:36+02:00</updated>
+  <updated>2014-09-29T13:23:12+01:00</updated>
   <id>http://tschoonj.github.io/</id>
   <author>
     <name><![CDATA[Tom Schoonjans]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Building a CUDA device function library with autotools]]></title>
     <link href="http://tschoonj.github.io/blog/2014/05/10/building-a-cuda-device-function-library-with-autotools/"/>
-    <updated>2014-05-10T15:08:11+02:00</updated>
+    <updated>2014-05-10T14:08:11+01:00</updated>
     <id>http://tschoonj.github.io/blog/2014/05/10/building-a-cuda-device-function-library-with-autotools</id>
     <content type="html"><![CDATA[<p>I have recently started a new development branch in my <a href="http://github.com/tschoonj/xraylib">xraylib</a> project, where I will gradually be adding support for <a href="https://developer.nvidia.com/about-cuda">nVidia&rsquo;s CUDA platform</a>. Essentially the goal is to create a library containing CUDA device function equivalents of most functions that are currently offered by xraylib. Since there is not really much point to include functions that deal with strings, I will be leaving those out.</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: gtkextra | The Code Dungeon]]></title>
   <link href="http://tschoonj.github.io/blog/categories/gtkextra/atom.xml" rel="self"/>
   <link href="http://tschoonj.github.io/"/>
-  <updated>2014-05-12T18:51:36+02:00</updated>
+  <updated>2014-09-29T13:23:12+01:00</updated>
   <id>http://tschoonj.github.io/</id>
   <author>
     <name><![CDATA[Tom Schoonjans]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Exporting and printing a GtkExtra plot canvas]]></title>
     <link href="http://tschoonj.github.io/blog/2013/07/22/exporting-and-printing-a-gtkextra-plot-canvas/"/>
-    <updated>2013-07-22T10:24:00+02:00</updated>
+    <updated>2013-07-22T10:24:00+01:00</updated>
     <id>http://tschoonj.github.io/blog/2013/07/22/exporting-and-printing-a-gtkextra-plot-canvas</id>
     <content type="html"><![CDATA[<p>My software package <a href="http://github.com/tschoonj/xmimsim">XMI-MSIM</a> relies on <a href="http://gtkextra.sourceforge.net/cms/">GtkExtra</a> for the visualization of the simulated X-ray fluorescence spectra.
 This library contains a number of useful widgets, such as a spreadsheet widget and a number of plotting tools, for your Gtk2 based GUI&rsquo;s.
