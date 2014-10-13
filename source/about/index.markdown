@@ -15,14 +15,15 @@ Some quick facts about me:
 
 * Born in Anderlecht (Belgium) on March 26, 1982
 * Studied chemistry (MSc) at Ghent University
-* Did a PhD on X-ray Fluorescence from 2006 to 2012 at the same university
-* Currently a post-doctoral researcher at the University of Sassari (Sardinia, Italy)
+* Did a PhD on X-ray Fluorescence from October 2006 to Januart 2012 at the same university, followed by short post-doc there as well
+* Post-doctoral researcher at the University of Sassari (Sardinia, Italy) from September 2012 to September 2014.
+* Currently a post-doctoral researcher at the Bundesanstalt für Materialforschung und -prüfung (Berlin, Germany)...
 
 I have a strong passion for coding, which I developed during my PhD research. My favorite weapons are C and Fortran, although I also have some skill in Perl and IDL. Most of my development occurs on a Mac, which comes with a collection of [virtual machines](http://virtualbox.org), allowing me to produce releases of my software for all major platforms.
 
 My main projects are [xraylib](http://github.com/tschoonj/xraylib), [XMI-MSIM](http://github.com/tschoonj/xmimsim) and [XRMC](http://github.com/golosio/xrmc), all of which are directly connected to my scientific research: Monte Carlo simulations of interactions of X-ray photons with matter. If you happen to be involved in this field of research as well, there's a good chance you may find them interesting, so feel free to check them out.
 
-Apart from these, I am also a minor contributor to two other projects [FGSL](https://sourceforge.net/projects/fgsl/), Fortran bindings to the [GNU scientific library](http://www.gnu.org/software/gsl/), and [GtkExtra](http://gtkextra.sourceforge.net), a useful set of widgets for creating GUI's for GTK+. 
+Apart from these, I am also a minor contributor to two other projects [FGSL](https://sourceforge.net/projects/fgsl/), Fortran bindings to the [GNU scientific library](http://www.gnu.org/software/gsl/), and [GtkExtra](http://gtkextra.sourceforge.net), a useful set of widgets for creating GUI's for GTK+. I am also maintaining an installer of the [Gtk+ 64-bit runtime environment for Windows](https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer).
 
 It goes without saying that all these projects are open-source and freely available!
 
