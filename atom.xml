@@ -4,7 +4,7 @@
   <title><![CDATA[The Code Dungeon]]></title>
   <link href="http://tschoonj.github.io/atom.xml" rel="self"/>
   <link href="http://tschoonj.github.io/"/>
-  <updated>2014-10-13T10:03:11+02:00</updated>
+  <updated>2014-11-06T19:31:42+00:00</updated>
   <id>http://tschoonj.github.io/</id>
   <author>
     <name><![CDATA[Tom Schoonjans]]></name>
@@ -14,9 +14,73 @@
 
   
   <entry>
+    <title type="html"><![CDATA[HDF5 on Windows: UTF-8 filenames support]]></title>
+    <link href="http://tschoonj.github.io/blog/2014/11/06/hdf5-on-windows-utf-8-filenames-support/"/>
+    <updated>2014-11-06T18:10:35+00:00</updated>
+    <id>http://tschoonj.github.io/blog/2014/11/06/hdf5-on-windows-utf-8-filenames-support</id>
+    <content type="html"><![CDATA[<p>In a previous <a href="http://tschoonj.github.io/blog/2014/01/29/building-a-64-bit-version-of-hdf5-with-mingw-w64/">post</a>, I have detailed my efforts in getting HDF5 compiled on Windows 64-bit using the MinGW-w64 compiler, which is currently (still) unsupported by the HDF5 developers. Now, I am reporting on yet another problem I encountered with HDF5 on Windows, that is blatantly being ignored by the developers: UTF-8 filename support.</p>
+
+<p>This was brought to my attention by a Japanese user of my software package <a href="http://github.com/tschoonj/xmimsim">XMI-MSIM</a>, who ran into trouble running the program when logged in with a username consisting of Japanese characters. The problem could be traced back to an HDF5 file that has to be opened, which is located in a subdirectory of the user&rsquo;s homedirectory. After investigating the HDF5 code, it became quite clear that this issue is caused by the internal use of the <a href="http://msdn.microsoft.com/en-us/library/z0kc8e3z.aspx"><code>_open</code> function</a>, which is known not to support the Unicode UTF-8 characterset, necessary to represent the Japanese characters. The HDF5 website confirmed this issue with the following statement:</p>
+
+<!--more-->
+
+
+
+
+<blockquote><p>Linux, Unix, and similar systems generally handle UTF-8 encodings in correct and predictable ways. There is an apparent consensus in the Linux community that &#8220;UTF-8 is just the right way to go.&#8221;<br/>Mac OS systems generally handle UTF-8 encodings correctly.</p><p>Windows systems use a different Unicode encoding, UCS-2 (discussed in this UTF-16 article) at the system level. Within an HDF5 file and application on a Windows system, UTF-8 encoding should work correctly and as expected. Problems may arise, however, when that UTF-8 encoding is exposed directly to the Windows system. For example:</p><p>File open and close calls on files with UTF-8 encoded names are likely to fail as the HDF5 open and close operations interact directly with the Windows file system interface.<br/>Anytime an HDF5 command-line utility (h5ls or h5dump, for example) emits text output, the Windows system must interpret the character encodings. If that output is UTF-8 encoded, Windows will correctly interpret only those characters in the ASCII subset of UTF-8.</p><footer><strong>HDF5 documentation</strong> <cite><a href='http://www.hdfgroup.org/HDF5/doc/Advanced/UsingUnicode/'>www.hdfgroup.org/HDF5/doc/&hellip;</a></cite></footer></blockquote>
+
+
+<p>So basically I was stuck here since there is no way to convert a filename in UTF-8 encoding to the UCS encoding that was expected by <code>_open</code>. <a href="http://stackoverflow.com/questions/23285759/fopen-file-name-with-utf8-string-in-windows">A solution</a> which would have converted the filename to the corresponding short form (8 character filename with 3 character extension) using <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa364989%28v=vs.85%29.aspx"><code>GetShortPathName</code></a> seemed like a very ugly hack and decided not to pursue it. Instead I opted to hack the HDF5 code myself and replace all instances of <code>_open</code> with its wide char counterparts, that could be fed the UTF-8 filenames after converting them with <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/dd319072.aspx"><code>MultiByteToWideChar</code></a>.</p>
+
+<p>Fortunately, it turned out that I was not the first one who ran into this situation and found a better solution on the <a href="http://mail.lists.hdfgroup.org/pipermail/hdf-forum_lists.hdfgroup.org/2014-August/007988.html">HDF5 forums</a>. Essentially the solution consists of redefining the <code>HDopen</code> macro from <code>_open</code> to a function of our own that converts our filename in UTF-8 encoding to the corresponding wide char representation and feed it to <code>_wopen</code>. Since we are compiling with MinGW-w64, some other modifications were necessary (the original solution relied on CMake): the src/Makefile.am file was modified in order to compile also the H5FDwindows.c and H5FDwindows.h, the latter being added to the public headers. After running <code>autoreconf -i -f</code> (I had to downgrade the required autoconf version in configure.ac for this to work, but this didn&rsquo;t create any problems), and running the configure script, I modified the src/H5pubconf.h file according to my <a href="http://tschoonj.github.io/blog/2014/01/29/building-a-64-bit-version-of-hdf5-with-mingw-w64/">earlier post</a>, but had to add one more line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="c1">//fixes first problem</span>
+</span><span class='line'><span class="cp">#ifndef H5_HAVE_WIN32_API</span>
+</span><span class='line'><span class="cp">#ifdef WIN32 </span><span class="cm">/* defined for all windows systems */</span><span class="cp"></span>
+</span><span class='line'><span class="cp">#define H5_HAVE_WIN32_API 1</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#ifndef H5_HAVE_MINGW</span>
+</span><span class='line'><span class="cp">#ifdef __MINGW32__ </span><span class="cm">/*defined for all MinGW compilers */</span><span class="cp"></span>
+</span><span class='line'><span class="cp">#define H5_HAVE_MINGW 1</span>
+</span><span class='line'><span class="c1">//additional line necessary for UTF-8 build to succeed</span>
+</span><span class='line'><span class="cp">#define H5_HAVE_WINDOWS 1</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//fixes second problem</span>
+</span><span class='line'><span class="cp">#define H5_BUILT_AS_DYNAMIC_LIB 1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Keep in mind that this file is recreated after running configure, so these modifications will have to be repeated!!!</p>
+
+<p>This solution is not pretty, and it will have to be repeated every time you compile a new version of HDF5. Ideally, the HDF5 developers would implement a solution based on this hack, which would bring it in line with most other open-source projects that assume UTF-8 filenames on all platforms. I doubt this will happen anytime soon though, since the original solution posted on the HDF5 forums has not been commented on by any of the developers&hellip;</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Gtk2 64-bit Windows Runtime Environment Installer: now on GitHub!]]></title>
     <link href="http://tschoonj.github.io/blog/2014/09/29/gtk2-64-bit-windows-runtime-environment-installer-now-on-github/"/>
-    <updated>2014-09-29T13:33:58+02:00</updated>
+    <updated>2014-09-29T12:33:58+01:00</updated>
     <id>http://tschoonj.github.io/blog/2014/09/29/gtk2-64-bit-windows-runtime-environment-installer-now-on-github</id>
     <content type="html"><![CDATA[<p>As predicted in my <a href="http://tschoonj.github.io/blog/2014/02/08/gtk2-64-bit-windows-runtime-environment-installer/">first post</a> on the Gtk2 64-bit Windows Runtime Environment Installer, I have indeed ventured into compiling Gtk (2.24.24) and all its dependencies, mainly because I was getting increasingly unhappy with the old Gtk 2.22.1 based bundle that <a href="http://www.gtk.org/download/win64.php">is being distributed</a> by the Gtk project. It was in fact this very bundle that I was using to generate the installer I announced in my first post on this subject.</p>
 
@@ -31,7 +95,7 @@
   <entry>
     <title type="html"><![CDATA[Building a CUDA device function library with autotools]]></title>
     <link href="http://tschoonj.github.io/blog/2014/05/10/building-a-cuda-device-function-library-with-autotools/"/>
-    <updated>2014-05-10T15:08:11+02:00</updated>
+    <updated>2014-05-10T14:08:11+01:00</updated>
     <id>http://tschoonj.github.io/blog/2014/05/10/building-a-cuda-device-function-library-with-autotools</id>
     <content type="html"><![CDATA[<p>I have recently started a new development branch in my <a href="http://github.com/tschoonj/xraylib">xraylib</a> project, where I will gradually be adding support for <a href="https://developer.nvidia.com/about-cuda">nVidia&rsquo;s CUDA platform</a>. Essentially the goal is to create a library containing CUDA device function equivalents of most functions that are currently offered by xraylib. Since there is not really much point to include functions that deal with strings, I will be leaving those out.</p>
 
@@ -325,7 +389,7 @@ fi
   <entry>
     <title type="html"><![CDATA[Gtk2 64-bit Windows Runtime Environment Installer]]></title>
     <link href="http://tschoonj.github.io/blog/2014/02/08/gtk2-64-bit-windows-runtime-environment-installer/"/>
-    <updated>2014-02-08T12:47:00+01:00</updated>
+    <updated>2014-02-08T12:47:00+00:00</updated>
     <id>http://tschoonj.github.io/blog/2014/02/08/gtk2-64-bit-windows-runtime-environment-installer</id>
     <content type="html"><![CDATA[<p><strong>Update: this post has been largely superseded by <a href="http://tschoonj.github.io/blog/2014/09/29/gtk2-64-bit-windows-runtime-environment-installer-now-on-github">http://tschoonj.github.io/blog/2014/09/29/gtk2-64-bit-windows-runtime-environment-installer-now-on-github</a> </strong></p>
 
@@ -1243,7 +1307,7 @@ FunctionEnd
   <entry>
     <title type="html"><![CDATA[Building a 64-bit version of HDF5 with MinGW-w64]]></title>
     <link href="http://tschoonj.github.io/blog/2014/01/29/building-a-64-bit-version-of-hdf5-with-mingw-w64/"/>
-    <updated>2014-01-29T16:35:00+01:00</updated>
+    <updated>2014-01-29T16:35:00+00:00</updated>
     <id>http://tschoonj.github.io/blog/2014/01/29/building-a-64-bit-version-of-hdf5-with-mingw-w64</id>
     <content type="html"><![CDATA[<p>I have finally decided to try building a 64-bit version of the Windows package of <a href="http://github.com/tschoonj/xmimsim">XMI-MSIM</a>.
 As is the case for my 32-bit builds, I am using the MinGW compiler as provided by <a href="http://tdm-gcc.tdragon.net">TDM-GCC</a>, although obviously this time I opted for the 64-bit variant.
@@ -1312,7 +1376,7 @@ The third option disable the high-level bindings, while the last option makes su
   <entry>
     <title type="html"><![CDATA[Building libtool modules: Python bindings]]></title>
     <link href="http://tschoonj.github.io/blog/2013/09/04/building-libtool-modules-python-bindings/"/>
-    <updated>2013-09-04T10:47:00+02:00</updated>
+    <updated>2013-09-04T10:47:00+01:00</updated>
     <id>http://tschoonj.github.io/blog/2013/09/04/building-libtool-modules-python-bindings</id>
     <content type="html"><![CDATA[<p>One of the software packages (<a href="http://github.com/tschoonj/xraylib">xraylib</a>) I am working on, consists of a C-library with bindings to a number of other languages such as Python, Fortran 2003, IDL, Java, Ruby, Lua and Perl. Apart from IDL and Fortran 2003, the source code for these bindings is generated automatically using <a href="http://www.swig.org">swig</a>, although with considerable language-specific modifications to the swig interface file.</p>
 
@@ -1549,7 +1613,7 @@ However, recent versions of <a href="http://www.gnu.org/software/automake/manual
   <entry>
     <title type="html"><![CDATA[Exporting and printing a GtkExtra plot canvas]]></title>
     <link href="http://tschoonj.github.io/blog/2013/07/22/exporting-and-printing-a-gtkextra-plot-canvas/"/>
-    <updated>2013-07-22T10:24:00+02:00</updated>
+    <updated>2013-07-22T10:24:00+01:00</updated>
     <id>http://tschoonj.github.io/blog/2013/07/22/exporting-and-printing-a-gtkextra-plot-canvas</id>
     <content type="html"><![CDATA[<p>My software package <a href="http://github.com/tschoonj/xmimsim">XMI-MSIM</a> relies on <a href="http://gtkextra.sourceforge.net/cms/">GtkExtra</a> for the visualization of the simulated X-ray fluorescence spectra.
 This library contains a number of useful widgets, such as a spreadsheet widget and a number of plotting tools, for your Gtk2 based GUI&rsquo;s.
@@ -2004,7 +2068,7 @@ Keep in mind that up to today, GtkExtra is still only compatible with Gtk2. Howe
   <entry>
     <title type="html"><![CDATA[Checking for updates using git tags]]></title>
     <link href="http://tschoonj.github.io/blog/2013/07/08/checking-for-updates-using-git-tags/"/>
-    <updated>2013-07-08T19:39:00+02:00</updated>
+    <updated>2013-07-08T19:39:00+01:00</updated>
     <id>http://tschoonj.github.io/blog/2013/07/08/checking-for-updates-using-git-tags</id>
     <content type="html"><![CDATA[<p>At some point during the development of version 2.0 of my software package <a href="http://github.com/tschoonj/xmimsim">XMI-MSIM</a>, I decided to implement a routine that would allow for the program to check if newer versions (updates) were available. This would be extremely useful for the users of the Windows and Mac OS X builds of my package, since these operating systems do not come with package-management tools as most Linux distributions do (I am staying far away from Mac App Store and Windows store as I am not willing to pay their developer fees).</p>
 
