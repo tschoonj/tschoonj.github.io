@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: CUDA | The Code Dungeon]]></title>
+  <title><![CDATA[Category: cuda | The Code Dungeon]]></title>
   <link href="http://tschoonj.github.io/blog/categories/cuda/atom.xml" rel="self"/>
   <link href="http://tschoonj.github.io/"/>
-  <updated>2014-11-06T19:31:42+00:00</updated>
+  <updated>2015-01-23T13:39:39+01:00</updated>
   <id>http://tschoonj.github.io/</id>
   <author>
     <name><![CDATA[Tom Schoonjans]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Building a CUDA device function library with autotools]]></title>
     <link href="http://tschoonj.github.io/blog/2014/05/10/building-a-cuda-device-function-library-with-autotools/"/>
-    <updated>2014-05-10T14:08:11+01:00</updated>
+    <updated>2014-05-10T15:08:11+02:00</updated>
     <id>http://tschoonj.github.io/blog/2014/05/10/building-a-cuda-device-function-library-with-autotools</id>
     <content type="html"><![CDATA[<p>I have recently started a new development branch in my <a href="http://github.com/tschoonj/xraylib">xraylib</a> project, where I will gradually be adding support for <a href="https://developer.nvidia.com/about-cuda">nVidia&rsquo;s CUDA platform</a>. Essentially the goal is to create a library containing CUDA device function equivalents of most functions that are currently offered by xraylib. Since there is not really much point to include functions that deal with strings, I will be leaving those out.</p>
 
@@ -37,7 +37,7 @@
 First of all, we can only create static libraries.
 This is not nearly as bad is at sounds: it will make the Makefile.am considerably simpler since we will be able to avoid using libtool this way. Libtool would really make things difficult here since we have to use the nvcc command with its non-standard options and have to define custom compilation rules for our source code files, at least assuming you follow the convention of giving your CUDA source files the .cu extension. In my case I ended up with this code:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -72,52 +72,42 @@ This is not nearly as bad is at sounds: it will make the Makefile.am considerabl
 <span class='line-number'>33</span>
 <span class='line-number'>34</span>
 <span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
 </pre></td><td class='code'><pre><code class='makefile'><span class='line'><span class="nv">xraylibincludedir</span> <span class="o">=</span> <span class="k">${</span><span class="nv">includedir</span><span class="k">}</span>/xraylib&lt;/p&gt;
 </span><span class='line'>
 </span><span class='line'><span class="err">&lt;p&gt;if</span> <span class="err">ENABLE_CUDA</span>
 </span><span class='line'><span class="nv">lib_LIBRARIES</span><span class="o">=</span>libxrlcuda.a
 </span><span class='line'><span class="nv">xraylibinclude_HEADERS</span> <span class="o">=</span> xraylib-cuda.h
-</span><span class='line'><span class="nv">libxrlcuda_a_SOURCES</span> <span class="o">=</span> xraylib-cuda.cu xraylib-cuda.h <span class="se">\&lt;</span>/p&gt;
-</span><span class='line'>
-</span><span class='line'><span class="err">&lt;pre&gt;&lt;code&gt;</span>           <span class="err">xraylib-cuda-private.h</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">atomiclevelwidth.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">atomicweight.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">auger_trans.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">comptonprofiles.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">coskron.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">cross_sections.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">densities.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">edges.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">fi.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">fii.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">fluor_yield.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">jump.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">radrate.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">scattering.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">kissel_pe.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">xrf_cross_sections_aux.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">cs_line.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">splint.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">fluor_lines.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">polarized.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">cs_barns.cu</span>
-</span><span class='line'><span class="err">&lt;/code&gt;&lt;/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="err">&lt;p&gt;</span><span class="nv">libxrlcuda_a_CFLAGS</span> <span class="o">=</span> <span class="k">$(</span>CUDA_CFLAGS<span class="k">)</span> -I<span class="k">$(</span>top_srcdir<span class="k">)</span>/src -I<span class="k">$(</span>top_srcdir<span class="k">)</span>/include
+</span><span class='line'><span class="nv">libxrlcuda_a_SOURCES</span> <span class="o">=</span> xraylib-cuda.cu xraylib-cuda.h <span class="se">\</span>
+</span><span class='line'>               xraylib-cuda-private.h <span class="se">\</span>
+</span><span class='line'>               atomiclevelwidth.cu <span class="se">\</span>
+</span><span class='line'>               atomicweight.cu <span class="se">\</span>
+</span><span class='line'>               auger_trans.cu <span class="se">\</span>
+</span><span class='line'>               comptonprofiles.cu <span class="se">\</span>
+</span><span class='line'>               coskron.cu <span class="se">\</span>
+</span><span class='line'>               cross_sections.cu <span class="se">\</span>
+</span><span class='line'>               densities.cu <span class="se">\</span>
+</span><span class='line'>               edges.cu <span class="se">\</span>
+</span><span class='line'>               <span class="k">fi</span>.cu <span class="se">\</span>
+</span><span class='line'>               fii.cu <span class="se">\</span>
+</span><span class='line'>               fluor_yield.cu <span class="se">\</span>
+</span><span class='line'>               jump.cu <span class="se">\</span>
+</span><span class='line'>               radrate.cu <span class="se">\</span>
+</span><span class='line'>               scattering.cu <span class="se">\</span>
+</span><span class='line'>               kissel_pe.cu <span class="se">\</span>
+</span><span class='line'>               xrf_cross_sections_aux.cu <span class="se">\</span>
+</span><span class='line'>               cs_line.cu <span class="se">\</span>
+</span><span class='line'>               splint.cu <span class="se">\</span>
+</span><span class='line'>               fluor_lines.cu <span class="se">\</span>
+</span><span class='line'>               polarized.cu <span class="se">\</span>
+</span><span class='line'>               cs_barns.cu
+</span><span class='line'><span class="nv">libxrlcuda_a_CFLAGS</span> <span class="o">=</span> <span class="k">$(</span>CUDA_CFLAGS<span class="k">)</span> -I<span class="k">$(</span>top_srcdir<span class="k">)</span>/src -I<span class="k">$(</span>top_srcdir<span class="k">)</span>/include
 </span><span class='line'><span class="nv">libxrlcuda_a_AR</span> <span class="o">=</span> <span class="k">$(</span>NVCC<span class="k">)</span> -arch<span class="o">=</span>sm_20 -lib -o&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'><span class="nf">&lt;p&gt;.cu.o</span><span class="o">:</span> <span class="m">xraylib-cuda.h xraylib-cuda-private.h&lt;/p&gt;</span>
+</span><span class='line'><span class="nf">&lt;p&gt;.cu.o</span><span class="o">:</span> <span class="n">xraylib</span>-<span class="n">cuda</span>.<span class="n">h</span> <span class="n">xraylib</span>-<span class="n">cuda</span>-<span class="n">private</span>.<span class="n">h</span>
+</span><span class='line'>    <span class="k">$(</span>NVCC<span class="k">)</span> <span class="k">$(</span>libxrlcuda_a_CFLAGS<span class="k">)</span> -arch<span class="o">=</span>sm_20 -dc -o <span class="nv">$@</span> <span class="nv">$&amp;</span>lt<span class="p">;</span>&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'><span class="err">&lt;pre&gt;&lt;code&gt;</span><span class="k">$(</span>NVCC<span class="k">)</span> <span class="k">$(</span>libxrlcuda_a_CFLAGS<span class="k">)</span> -arch<span class="o">=</span>sm_20 -dc -o <span class="nv">$@</span> <span class="nv">$&amp;</span>lt;
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;endif
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span><span class='line'><span class="err">&lt;p&gt;endif</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Note how I disabled libtool here: I included the <code>lib_LIBRARIES</code> variable instead of <code>lib_LTLIBRARIES</code>. This two letter difference will ensure that libtool is not being used!
 Two other things really set this file apart from typical Makefile.am&rsquo;s:</p>
@@ -139,7 +129,7 @@ Two other things really set this file apart from typical Makefile.am&rsquo;s:</p
 <p>xraylib contains an example folder with a Makefile.am that will handle the compilation and running of the examples whenever <code>make check</code> is invoked after successful building of the core library and its bindings. The example contains both device (CUDA kernels that use the device functions) as well as host code to launch the kernels and handle the I/O with the GPU.
 Here are the relevant sections of this file that deal with the cuda bindings example:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -155,12 +145,6 @@ Here are the relevant sections of this file that deal with the cuda bindings exa
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
 </pre></td><td class='code'><pre><code class='makefile'><span class='line'><span class="err">if</span> <span class="err">ENABLE_CUDA</span>
 </span><span class='line'>  <span class="nv">check_PROGRAMS</span> <span class="o">+=</span> xrlexample11
 </span><span class='line'><span class="err">endif&lt;/p&gt;</span>
@@ -169,21 +153,15 @@ Here are the relevant sections of this file that deal with the cuda bindings exa
 </span><span class='line'>  <span class="nv">xrlexample11_SOURCES</span> <span class="o">=</span> xrlexample11.cu
 </span><span class='line'>  <span class="nv">xrlexample11_LDADD</span> <span class="o">=</span> xrlcudalink.o ../src/libxrl.la  <span class="k">$(</span>CUDA_LDFLAGS<span class="k">)</span> ../cuda/libxrlcuda.a -lcudart
 </span><span class='line'>  <span class="nv">xrlexample11_CFLAGS</span> <span class="o">=</span> -I<span class="k">${</span><span class="nv">top_srcdir</span><span class="k">}</span>/include -I<span class="k">${</span><span class="nv">top_builddir</span><span class="k">}</span>/include -I<span class="k">${</span><span class="nv">top_srcdir</span><span class="k">}</span>/cuda -I<span class="k">${</span><span class="nv">top_srcdir</span><span class="k">}</span>/src
-</span><span class='line'>  <span class="nv">TESTS_ENVIRONMENT</span> <span class="o">=</span> <span class="nv">DYLD_LIBRARY_PATH</span><span class="o">=</span>&amp;ldquo;<span class="k">$(</span>CUDA_LIBDIR<span class="k">)</span>&amp;rdquo; <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>&amp;ldquo;<span class="k">$(</span>CUDA_LIBDIR<span class="k">)</span>&amp;rdquo;
+</span><span class='line'>  <span class="nv">TESTS_ENVIRONMENT</span> <span class="o">=</span> <span class="nv">DYLD_LIBRARY_PATH</span><span class="o">=</span><span class="p">&amp;</span>ldquo<span class="p">;</span><span class="k">$(</span>CUDA_LIBDIR<span class="k">)</span><span class="p">&amp;</span>rdquo<span class="p">;</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="p">&amp;</span>ldquo<span class="p">;</span><span class="k">$(</span>CUDA_LIBDIR<span class="k">)</span><span class="p">&amp;</span>rdquo<span class="p">;</span>
 </span><span class='line'><span class="err">endif&lt;/p&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="nf">&lt;p&gt;.cu.o</span><span class="o">:</span> <span class="m">../cuda/libxrlcuda.a&lt;/p&gt;</span>
+</span><span class='line'><span class="nf">&lt;p&gt;.cu.o</span><span class="o">:</span> ../<span class="n">cuda</span>/<span class="n">libxrlcuda</span>.<span class="n">a</span>
+</span><span class='line'>    <span class="k">$(</span>NVCC<span class="k">)</span> <span class="k">$(</span>xrlexample11_CFLAGS<span class="k">)</span> -arch<span class="o">=</span>sm_20 -dc -o <span class="nv">$@</span> <span class="nv">$&amp;</span>lt<span class="p">;</span>&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'><span class="err">&lt;pre&gt;&lt;code&gt;</span><span class="k">$(</span>NVCC<span class="k">)</span> <span class="k">$(</span>xrlexample11_CFLAGS<span class="k">)</span> -arch<span class="o">=</span>sm_20 -dc -o <span class="nv">$@</span> <span class="nv">$&amp;</span>lt;
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;xrlcudalink.o: xrlexample11.o ../cuda/libxrlcuda.a&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;<span class="k">$(</span>NVCC<span class="k">)</span> -arch<span class="o">=</span>sm_20 -dlink xrlexample11.o ../cuda/libxrlcuda.a -o xrlcudalink.o
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span><span class='line'><span class="nf">&lt;p&gt;xrlcudalink.o</span><span class="o">:</span> <span class="n">xrlexample</span>11.<span class="n">o</span> ../<span class="n">cuda</span>/<span class="n">libxrlcuda</span>.<span class="n">a</span>
+</span><span class='line'>    <span class="k">$(</span>NVCC<span class="k">)</span> -arch<span class="o">=</span>sm_20 -dlink xrlexample11.o ../cuda/libxrlcuda.a -o xrlcudalink.o
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>It&rsquo;s quite similar to the Makefile.am for the static library: the exact same build rule is required to compile the CUDA source code. Interesting is the <code>xrlcudalink.o</code> build rule which turns out to be essential to link the device code in the example with the device code in the library. The resulting file after linking needs to be added to the <code>LDADD</code> command to ensure it ends up in the eventual executable. I am not overriding the linker here, so the default one will be used which is just fine.</p>
 

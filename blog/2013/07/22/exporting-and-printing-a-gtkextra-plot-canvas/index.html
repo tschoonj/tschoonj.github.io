@@ -112,7 +112,7 @@
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2013-07-22T10:24:00+01:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2013</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2013-07-22T10:24:00+02:00" pubdate data-updated="true"></time></h5>
   </div>
 </header>
   <div class="row-fluid">
@@ -211,7 +211,7 @@ This is accomplished with the calls to <code>gtk_plot_canvas_plot_new</code> and
 
 <p>So far, we have defined the <code>GtkPlotCanvas</code> and the <code>GtkPlot</code>. The latter currently consists of an empty grid. I made things a bit more interesting by adding a graph of a sine function. The following lines calculate 1000 values of the sine function within the interval [0, 4π], and add them subsequently to a <code>GtkPlotData</code> variable, that in turn is added to the <code>GtkPlot</code> with <code>gtk_plot_add_data</code>
 As with the grid in the previous section, it is possible to change the properties of the graph using a few appropriately named functions.
-This part of the code finishes by drawing and showing all widgets. I am doing this here with several calls, some of which are definitely unnecessary, but the documentation and examples of GtkExtra are pretty unclear on how to do this (especially when updating, erasing canvases, plots etc). Anyway, calling all of them seems to work just fine :&ndash;)</p>
+This part of the code finishes by drawing and showing all widgets. I am doing this here with several calls, some of which are definitely unnecessary, but the documentation and examples of GtkExtra are pretty unclear on how to do this (especially when updating, erasing canvases, plots etc). Anyway, calling all of them seems to work just fine :-)</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -640,7 +640,7 @@ Keep in mind that up to today, GtkExtra is still only compatible with Gtk2. Howe
       <div class="row-fluid">
         <footer class="footer-page" role="contentinfo">
           <p>
-  Copyright &copy; 2014 - Tom Schoonjans -
+  Copyright &copy; 2015 - Tom Schoonjans -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
 </p>
 

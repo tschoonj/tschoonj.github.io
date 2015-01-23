@@ -4,7 +4,7 @@
   <title><![CDATA[Category: gtkextra | The Code Dungeon]]></title>
   <link href="http://tschoonj.github.io/blog/categories/gtkextra/atom.xml" rel="self"/>
   <link href="http://tschoonj.github.io/"/>
-  <updated>2014-11-06T19:31:42+00:00</updated>
+  <updated>2015-01-23T13:39:39+01:00</updated>
   <id>http://tschoonj.github.io/</id>
   <author>
     <name><![CDATA[Tom Schoonjans]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Exporting and printing a GtkExtra plot canvas]]></title>
     <link href="http://tschoonj.github.io/blog/2013/07/22/exporting-and-printing-a-gtkextra-plot-canvas/"/>
-    <updated>2013-07-22T10:24:00+01:00</updated>
+    <updated>2013-07-22T10:24:00+02:00</updated>
     <id>http://tschoonj.github.io/blog/2013/07/22/exporting-and-printing-a-gtkextra-plot-canvas</id>
     <content type="html"><![CDATA[<p>My software package <a href="http://github.com/tschoonj/xmimsim">XMI-MSIM</a> relies on <a href="http://gtkextra.sourceforge.net/cms/">GtkExtra</a> for the visualization of the simulated X-ray fluorescence spectra.
 This library contains a number of useful widgets, such as a spreadsheet widget and a number of plotting tools, for your Gtk2 based GUI&rsquo;s.
@@ -36,7 +36,7 @@ Recently, I have become a minor contributor of this project, and I have been par
 <p>Define a canvas widget that will be used to draw the plot later and give it dimensions that correspond to those of the <a href="http://en.wikipedia.org/wiki/ISO_216">A4 paper size standard</a>. Other sizes are also available (letter, executive and legal), and are defined in <code>gtkplotpc.h</code>.The last parameter of the <code>gtk_plot_canvas_new</code> function is the magnification, which acts a scale factor for the dimensions of the canvas, and will therefore determine the size of the widget in the application. However, it has no impact on the size of the print or the size of the exported image.
 Next, I disable the user-interaction with the canvas and its items with the call to <code>GTK_PLOT_CANVAS_UNSET_FLAGS</code>, and I define the <code>GdkColor</code>s that will be used in the plot and canvas. The last call sets explicitly the background color of the canvas to white.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -52,7 +52,7 @@ Next, I disable the user-interaction with the canvas and its items with the call
 </span><span class='line'><span class="n">gdk_color_parse</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">red</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">red</span><span class="p">);</span>
 </span><span class='line'><span class="n">gdk_colormap_alloc_color</span><span class="p">(</span><span class="n">gdk_colormap_get_system</span><span class="p">(),</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">red</span><span class="p">,</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">);</span>
 </span><span class='line'><span class="n">gtk_plot_canvas_set_background</span><span class="p">(</span><span class="n">GTK_PLOT_CANVAS</span><span class="p">(</span><span class="n">canvas</span><span class="p">),</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">white</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <h3>Add a plot to the window&hellip;</h3>
 
@@ -62,7 +62,7 @@ I am not entirely confident about <code>gtk_plot_new_with_size</code> though: at
 Anyway, after constructing the plot to your liking, it must be added to the <code>GtkPlotCanvas</code> that was defined in the previous section.
 This is accomplished with the calls to <code>gtk_plot_canvas_plot_new</code> and <code>gtk_plot_canvas_put_child</code>.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -104,15 +104,15 @@ This is accomplished with the calls to <code>gtk_plot_canvas_plot_new</code> and
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">GtkPlotCanvasChild</span> <span class="o">*</span><span class="n">child</span> <span class="o">=</span> <span class="n">gtk_plot_canvas_plot_new</span><span class="p">(</span><span class="n">GTK_PLOT</span><span class="p">(</span><span class="n">plot_window</span><span class="p">));</span>
 </span><span class='line'><span class="n">gtk_plot_canvas_put_child</span><span class="p">(</span><span class="n">GTK_PLOT_CANVAS</span><span class="p">(</span><span class="n">canvas</span><span class="p">),</span> <span class="n">child</span><span class="p">,</span> <span class="mf">.15</span><span class="p">,</span><span class="mf">.05</span><span class="p">,</span><span class="mf">.90</span><span class="p">,</span><span class="mf">.85</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <h3>&hellip;and finish off with the data</h3>
 
 <p>So far, we have defined the <code>GtkPlotCanvas</code> and the <code>GtkPlot</code>. The latter currently consists of an empty grid. I made things a bit more interesting by adding a graph of a sine function. The following lines calculate 1000 values of the sine function within the interval [0, 4π], and add them subsequently to a <code>GtkPlotData</code> variable, that in turn is added to the <code>GtkPlot</code> with <code>gtk_plot_add_data</code>
 As with the grid in the previous section, it is possible to change the properties of the graph using a few appropriately named functions.
-This part of the code finishes by drawing and showing all widgets. I am doing this here with several calls, some of which are definitely unnecessary, but the documentation and examples of GtkExtra are pretty unclear on how to do this (especially when updating, erasing canvases, plots etc). Anyway, calling all of them seems to work just fine :&ndash;)</p>
+This part of the code finishes by drawing and showing all widgets. I am doing this here with several calls, some of which are definitely unnecessary, but the documentation and examples of GtkExtra are pretty unclear on how to do this (especially when updating, erasing canvases, plots etc). Anyway, calling all of them seems to work just fine :-)</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -143,22 +143,16 @@ This part of the code finishes by drawing and showing all widgets. I am doing th
 <span class='line-number'>29</span>
 <span class='line-number'>30</span>
 <span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
 </pre></td><td class='code'><pre><code class='c'><span class='line'><span class="c1">//calculate a sine function</span>
 </span><span class='line'><span class="kt">double</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">xvals</span> <span class="o">=</span> <span class="n">g_malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="mi">1000</span><span class="p">);</span>
 </span><span class='line'><span class="kt">double</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">yvals</span> <span class="o">=</span> <span class="n">g_malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="mi">1000</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kt">int</span> <span class="n">i</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="mi">1000</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">xvals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">M_PI</span><span class="o">*</span><span class="n">i</span><span class="o">/</span><span class="mi">999</span><span class="p">;</span>
-</span><span class='line'><span class="n">yvals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">xvals</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="mi">1000</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">xvals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">M_PI</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">i</span><span class="o">/</span><span class="mi">999</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">yvals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">xvals</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'><span class="n">GtkPlotData</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">dataset</span><span class="p">;</span>
 </span><span class='line'><span class="n">dataset</span> <span class="o">=</span> <span class="n">GTK_PLOT_DATA</span><span class="p">(</span><span class="n">gtk_plot_data_new</span><span class="p">());</span>
 </span><span class='line'><span class="n">gtk_plot_add_data</span><span class="p">(</span><span class="n">GTK_PLOT</span><span class="p">(</span><span class="n">plot_window</span><span class="p">),</span><span class="n">dataset</span><span class="p">);</span>
@@ -180,7 +174,7 @@ This part of the code finishes by drawing and showing all widgets. I am doing th
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">gtk_main</span><span class="p">();</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>After compilation with something like:</p>
 
@@ -195,7 +189,7 @@ This part of the code finishes by drawing and showing all widgets. I am doing th
 
 <p>Both the printing and exporting of the canvas rely on Cairo. The most important function here is <code>gtk_plot_canvas_export_cairo</code>, which accepts a cairo context as argument and will &lsquo;paint&rsquo; the canvas on it. When printing, this cairo context is produced by <code>gtk_print_context_get_cairo_context</code>, as is shown in the following code snippet. It contains both the &lsquo;clicked&rsquo; callback for the Print button, as well as the &lsquo;draw-page&rsquo; callback for the <code>GtkPrintOperation</code>.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -246,13 +240,10 @@ This part of the code finishes by drawing and showing all widgets. I am doing th
 <span class='line-number'>49</span>
 <span class='line-number'>50</span>
 <span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="kt">void</span> <span class="nf">draw_page</span><span class="p">(</span><span class="n">GtkPrintOperation</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">operation</span><span class="p">,</span> <span class="n">GtkPrintContext</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">context</span><span class="p">,</span> <span class="n">gint</span> <span class="n">page_nr</span><span class="p">,</span> <span class="k">struct</span> <span class="n">dialogData</span> <span class="o">*</span><span class="n">dd</span><span class="p">)</span> <span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="kt">void</span> <span class="nf">draw_page</span><span class="p">(</span><span class="n">GtkPrintOperation</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">operation</span><span class="p">,</span> <span class="n">GtkPrintContext</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">context</span><span class="p">,</span> <span class="n">gint</span> <span class="n">page_nr</span><span class="p">,</span> <span class="k">struct</span> <span class="n">dialogData</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">dd</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="kt">cairo_t</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">cr</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>    <span class="n">cairo_t</span> <span class="o">*</span><span class="n">cr</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//the following two lines do all the magic</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c1">//the following two lines do all the magic</span>
 </span><span class='line'>    <span class="n">cr</span> <span class="o">=</span> <span class="n">gtk_print_context_get_cairo_context</span><span class="p">(</span><span class="n">context</span><span class="p">);</span>
 </span><span class='line'>    <span class="n">gtk_plot_canvas_export_cairo</span><span class="p">(</span><span class="n">GTK_PLOT_CANVAS</span><span class="p">(</span><span class="n">dd</span><span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span><span class="n">canvas</span><span class="p">),</span><span class="n">cr</span><span class="p">);</span>
 </span><span class='line'>
@@ -261,15 +252,14 @@ This part of the code finishes by drawing and showing all widgets. I am doing th
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kt">void</span> <span class="n">print_button_clicked_cb</span><span class="p">(</span><span class="n">GtkWidget</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">button</span><span class="p">,</span> <span class="k">struct</span> <span class="n">dialogData</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">dd</span><span class="p">)</span> <span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kt">void</span> <span class="n">print_button_clicked_cb</span><span class="p">(</span><span class="n">GtkWidget</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">button</span><span class="p">,</span> <span class="k">struct</span> <span class="n">dialogData</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">dd</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">GtkPrintOperation</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">operation</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">GError</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">error</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">GtkPrintOperationResult</span> <span class="n">res</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">GtkPrintSettings</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">print_settings</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">GtkPageSetup</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">page_setup</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">GtkPrintOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">GError</span> <span class="o">*</span><span class="n">error</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">GtkPrintOperationResult</span> <span class="n">res</span><span class="p">;</span>
-</span><span class='line'><span class="n">GtkPrintSettings</span> <span class="o">*</span><span class="n">print_settings</span><span class="p">;</span>
-</span><span class='line'><span class="n">GtkPageSetup</span> <span class="o">*</span><span class="n">page_setup</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//print settings</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c1">//print settings</span>
 </span><span class='line'>    <span class="n">print_settings</span> <span class="o">=</span> <span class="n">gtk_print_settings_new</span><span class="p">();</span>
 </span><span class='line'>    <span class="n">gtk_print_settings_set_orientation</span><span class="p">(</span><span class="n">print_settings</span><span class="p">,</span><span class="n">GTK_PAGE_ORIENTATION_LANDSCAPE</span><span class="p">);</span>
 </span><span class='line'>    <span class="n">gtk_print_settings_set_paper_size</span><span class="p">(</span><span class="n">print_settings</span><span class="p">,</span><span class="n">gtk_paper_size_new</span><span class="p">(</span><span class="n">GTK_PAPER_NAME_A4</span><span class="p">));</span>
@@ -301,7 +291,7 @@ This part of the code finishes by drawing and showing all widgets. I am doing th
 </span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <h2>Exporting the canvas to a file</h2>
 
@@ -309,7 +299,7 @@ This part of the code finishes by drawing and showing all widgets. I am doing th
 
 <p>The function in this example is a callback of the Save As button, and pops up a <code>GtkFileChooserDialog</code>, with three <code>GtkFileFilter</code>s, each corresponding to one of the supported fileformats. After selecting a filter and choosing the filename, a cairo surface is created for the selected filetype. Next, a cairo context is created for the surface, which will be used to paint the canvas on using <code>gtk_plot_canvas_export_cairo</code>. Multipage formats such as PostScript and PDF require the extra call to <code>cairo_show_page</code>. The function terminates after destroying the cairo surfaces and contexts.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -391,16 +381,14 @@ This part of the code finishes by drawing and showing all widgets. I am doing th
 <span class='line-number'>80</span>
 <span class='line-number'>81</span>
 <span class='line-number'>82</span>
-<span class='line-number'>83</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="kt">void</span> <span class="nf">export_button_clicked_cb</span><span class="p">(</span><span class="n">GtkWidget</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">button</span><span class="p">,</span> <span class="k">struct</span> <span class="n">dialogData</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">dd</span><span class="p">)</span> <span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="kt">void</span> <span class="nf">export_button_clicked_cb</span><span class="p">(</span><span class="n">GtkWidget</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">button</span><span class="p">,</span> <span class="k">struct</span> <span class="n">dialogData</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">dd</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">GtkWidget</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">dialog</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">GtkFileFilter</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">filter</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">gchar</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">filename</span><span class="p">;</span>
+</span><span class='line'>        <span class="kt">cairo_t</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">cr</span><span class="p">;</span>
+</span><span class='line'>        <span class="kt">cairo_surface_t</span> <span class="o">*</span><span class="n">surface</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">GtkWidget</span> <span class="o">*</span><span class="n">dialog</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">GtkFileFilter</span> <span class="o">*</span><span class="n">filter</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">gchar</span> <span class="o">*</span><span class="n">filename</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">cairo_t</span> <span class="o">*</span><span class="n">cr</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">cairo_surface_t</span> <span class="o">*</span><span class="n">surface</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">dialog</span> <span class="o">=</span> <span class="n">gtk_file_chooser_dialog_new</span><span class="p">(</span><span class="s">&quot;Export spectra&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">dialog</span> <span class="o">=</span> <span class="n">gtk_file_chooser_dialog_new</span><span class="p">(</span><span class="s">&quot;Export spectra&quot;</span><span class="p">,</span>
 </span><span class='line'>            <span class="n">GTK_WINDOW</span><span class="p">(</span><span class="n">dd</span><span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span><span class="n">window</span><span class="p">),</span> <span class="n">GTK_FILE_CHOOSER_ACTION_SAVE</span><span class="p">,</span>
 </span><span class='line'>            <span class="n">GTK_STOCK_CANCEL</span><span class="p">,</span> <span class="n">GTK_RESPONSE_CANCEL</span><span class="p">,</span>
 </span><span class='line'>            <span class="n">GTK_STOCK_SAVE</span><span class="p">,</span> <span class="n">GTK_RESPONSE_ACCEPT</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
@@ -475,7 +463,7 @@ This part of the code finishes by drawing and showing all widgets. I am doing th
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <h2>The code</h2>
 

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: MinGW-w64 | The Code Dungeon]]></title>
+  <title><![CDATA[Category: mingw-w64 | The Code Dungeon]]></title>
   <link href="http://tschoonj.github.io/blog/categories/mingw-w64/atom.xml" rel="self"/>
   <link href="http://tschoonj.github.io/"/>
-  <updated>2014-11-06T19:31:42+00:00</updated>
+  <updated>2015-01-23T13:39:39+01:00</updated>
   <id>http://tschoonj.github.io/</id>
   <author>
     <name><![CDATA[Tom Schoonjans]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[HDF5 on Windows: UTF-8 filenames support]]></title>
     <link href="http://tschoonj.github.io/blog/2014/11/06/hdf5-on-windows-utf-8-filenames-support/"/>
-    <updated>2014-11-06T18:10:35+00:00</updated>
+    <updated>2014-11-06T19:10:35+01:00</updated>
     <id>http://tschoonj.github.io/blog/2014/11/06/hdf5-on-windows-utf-8-filenames-support</id>
     <content type="html"><![CDATA[<p>In a previous <a href="http://tschoonj.github.io/blog/2014/01/29/building-a-64-bit-version-of-hdf5-with-mingw-w64/">post</a>, I have detailed my efforts in getting HDF5 compiled on Windows 64-bit using the MinGW-w64 compiler, which is currently (still) unsupported by the HDF5 developers. Now, I am reporting on yet another problem I encountered with HDF5 on Windows, that is blatantly being ignored by the developers: UTF-8 filename support.</p>
 
@@ -31,38 +31,24 @@
 
 <p>Fortunately, it turned out that I was not the first one who ran into this situation and found a better solution on the <a href="http://mail.lists.hdfgroup.org/pipermail/hdf-forum_lists.hdfgroup.org/2014-August/007988.html">HDF5 forums</a>. Essentially the solution consists of redefining the <code>HDopen</code> macro from <code>_open</code> to a function of our own that converts our filename in UTF-8 encoding to the corresponding wide char representation and feed it to <code>_wopen</code>. Since we are compiling with MinGW-w64, some other modifications were necessary (the original solution relied on CMake): the src/Makefile.am file was modified in order to compile also the H5FDwindows.c and H5FDwindows.h, the latter being added to the public headers. After running <code>autoreconf -i -f</code> (I had to downgrade the required autoconf version in configure.ac for this to work, but this didn&rsquo;t create any problems), and running the configure script, I modified the src/H5pubconf.h file according to my <a href="http://tschoonj.github.io/blog/2014/01/29/building-a-64-bit-version-of-hdf5-with-mingw-w64/">earlier post</a>, but had to add one more line:</p>
 
-<p>``` c
-//fixes first problem</p>
+<pre><code class="c ">//fixes first problem
+#ifndef H5_HAVE_WIN32_API
+#ifdef WIN32 /* defined for all windows systems */
+#define H5_HAVE_WIN32_API 1
+#endif
+#endif
 
-<h1>ifndef H5_HAVE_WIN32_API</h1>
+#ifndef H5_HAVE_MINGW
+#ifdef __MINGW32__ /*defined for all MinGW compilers */
+#define H5_HAVE_MINGW 1
+//additional line necessary for UTF-8 build to succeed
+#define H5_HAVE_WINDOWS 1
+#endif
+#endif
 
-<h1>ifdef WIN32 /<em> defined for all windows systems </em>/</h1>
-
-<h1>define H5_HAVE_WIN32_API 1</h1>
-
-<h1>endif</h1>
-
-<h1>endif</h1>
-
-<h1>ifndef H5_HAVE_MINGW</h1>
-
-<h1>ifdef <strong>MINGW32</strong> /<em>defined for all MinGW compilers </em>/</h1>
-
-<h1>define H5_HAVE_MINGW 1</h1>
-
-<p>//additional line necessary for UTF-8 build to succeed</p>
-
-<h1>define H5_HAVE_WINDOWS 1</h1>
-
-<h1>endif</h1>
-
-<h1>endif</h1>
-
-<p>//fixes second problem</p>
-
-<h1>define H5_BUILT_AS_DYNAMIC_LIB 1</h1>
-
-<p>```</p>
+//fixes second problem
+#define H5_BUILT_AS_DYNAMIC_LIB 1
+</code></pre>
 
 <p>Keep in mind that this file is recreated after running configure, so these modifications will have to be repeated!!!</p>
 
@@ -73,7 +59,7 @@
   <entry>
     <title type="html"><![CDATA[Gtk2 64-bit Windows Runtime Environment Installer: now on GitHub!]]></title>
     <link href="http://tschoonj.github.io/blog/2014/09/29/gtk2-64-bit-windows-runtime-environment-installer-now-on-github/"/>
-    <updated>2014-09-29T12:33:58+01:00</updated>
+    <updated>2014-09-29T13:33:58+02:00</updated>
     <id>http://tschoonj.github.io/blog/2014/09/29/gtk2-64-bit-windows-runtime-environment-installer-now-on-github</id>
     <content type="html"><![CDATA[<p>As predicted in my <a href="http://tschoonj.github.io/blog/2014/02/08/gtk2-64-bit-windows-runtime-environment-installer/">first post</a> on the Gtk2 64-bit Windows Runtime Environment Installer, I have indeed ventured into compiling Gtk (2.24.24) and all its dependencies, mainly because I was getting increasingly unhappy with the old Gtk 2.22.1 based bundle that <a href="http://www.gtk.org/download/win64.php">is being distributed</a> by the Gtk project. It was in fact this very bundle that I was using to generate the installer I announced in my first post on this subject.</p>
 
@@ -88,7 +74,7 @@
   <entry>
     <title type="html"><![CDATA[Gtk2 64-bit Windows Runtime Environment Installer]]></title>
     <link href="http://tschoonj.github.io/blog/2014/02/08/gtk2-64-bit-windows-runtime-environment-installer/"/>
-    <updated>2014-02-08T12:47:00+00:00</updated>
+    <updated>2014-02-08T12:47:00+01:00</updated>
     <id>http://tschoonj.github.io/blog/2014/02/08/gtk2-64-bit-windows-runtime-environment-installer</id>
     <content type="html"><![CDATA[<p><strong>Update: this post has been largely superseded by <a href="http://tschoonj.github.io/blog/2014/09/29/gtk2-64-bit-windows-runtime-environment-installer-now-on-github">http://tschoonj.github.io/blog/2014/09/29/gtk2-64-bit-windows-runtime-environment-installer-now-on-github</a> </strong></p>
 
@@ -98,7 +84,7 @@
 
 <p>This being said, I still needed such an installer so I wrote one based on his NSIS script, using the official 64-bit Gtk+ packages for Windows 64-bit. The only major change I introduced was dropping support for the compatibility DLLs, which were redundant anyway. I am sharing the modified NSIS script as Github Gist so start hacking away at it. This script has some dependencies, apart from the DLLs, which are necessary to build the installer. Since I didn&rsquo;t change them at all, use the files that the original developer is sharing on <a href="http://sourceforge.net/p/gtk-win/code/HEAD/tree/">sourceforge</a>.</p>
 
-<p>The installer itself can be obtained <a href="http://lvserver.ugent.be/gtk-win64/gtk2-runtime-2.22.1-2014-02-01-ts-win64.exe">here</a>. If you would like to see an example on how to use this installer from within your own NSIS script, have a look at e.g. <a href="https://github.com/tschoonj/xmimsim/blob/master/nsis/xmimsim-win64.nsi.in">my XMI-MSIM Windows 64-bit installer</a>.</p>
+<p>The installer itself can be obtained <a href="http://lvserver.ugent.be/gtk-win64/">here</a>. If you would like to see an example on how to use this installer from within your own NSIS script, have a look at e.g. <a href="https://github.com/tschoonj/xmimsim/blob/master/nsis/xmimsim-win64.nsi.in">my XMI-MSIM Windows 64-bit installer</a>.</p>
 
 <!-- more -->
 
@@ -1004,7 +990,7 @@ FunctionEnd
   <entry>
     <title type="html"><![CDATA[Building a 64-bit version of HDF5 with MinGW-w64]]></title>
     <link href="http://tschoonj.github.io/blog/2014/01/29/building-a-64-bit-version-of-hdf5-with-mingw-w64/"/>
-    <updated>2014-01-29T16:35:00+00:00</updated>
+    <updated>2014-01-29T16:35:00+01:00</updated>
     <id>http://tschoonj.github.io/blog/2014/01/29/building-a-64-bit-version-of-hdf5-with-mingw-w64</id>
     <content type="html"><![CDATA[<p>I have finally decided to try building a 64-bit version of the Windows package of <a href="http://github.com/tschoonj/xmimsim">XMI-MSIM</a>.
 As is the case for my 32-bit builds, I am using the MinGW compiler as provided by <a href="http://tdm-gcc.tdragon.net">TDM-GCC</a>, although obviously this time I opted for the 64-bit variant.
@@ -1020,9 +1006,8 @@ Now XMI-MSIM has a considerable amount of dependencies (GTK+, GSL, HDF5, libxml2
 <p>As it turns out the HDF5 people have decided to drop support for building HDF5 with MinGW with their 1.8.5 release, and are currently only supporting builds on Windows with either cygwin (with the configure script) or Visual Studio (with CMake), none of which was suitable for me.
 I downloaded the latest version 1.8.12 from the <a href="http://www.hdfgroup.org/HDF5/release/obtainsrc.html">HDF5 website</a>, unpacked the tarball and ran:</p>
 
-<p><code>
-$ ./configure --host=x86_64-w64-mingw32 --build=x86_64-w64-mingw32 --disable-hl --prefix=$HOME
-</code></p>
+<pre><code>$ ./configure --host=x86_64-w64-mingw32 --build=x86_64-w64-mingw32 --disable-hl --prefix=$HOME
+</code></pre>
 
 <p>The two first options ensure that the configure script realizes that I am using a 64-bit MinGW compiler, which may be necessary for some tests to pass (at least with other packages I compiled this was necessary).
 The third option disable the high-level bindings, while the last option makes sure that they files will be installed in subfolders of my home directory.</p>
@@ -1031,34 +1016,22 @@ The third option disable the high-level bindings, while the last option makes su
 
 <p>The solution to both problems was to append the following lines to the src/H5pubconf.h within your <em>builddirectory</em>:</p>
 
-<p>``` c
-//fixes first problem</p>
+<pre><code class="c ">//fixes first problem
+#ifndef H5_HAVE_WIN32_API
+#ifdef WIN32 /* defined for all windows systems */
+#define H5_HAVE_WIN32_API 1
+#endif
+#endif
 
-<h1>ifndef H5_HAVE_WIN32_API</h1>
+#ifndef H5_HAVE_MINGW
+#ifdef __MINGW32__ /*defined for all MinGW compilers */
+#define H5_HAVE_MINGW 1
+#endif
+#endif
 
-<h1>ifdef WIN32 /<em> defined for all windows systems </em>/</h1>
-
-<h1>define H5_HAVE_WIN32_API 1</h1>
-
-<h1>endif</h1>
-
-<h1>endif</h1>
-
-<h1>ifndef H5_HAVE_MINGW</h1>
-
-<h1>ifdef <strong>MINGW32</strong> /<em>defined for all MinGW compilers </em>/</h1>
-
-<h1>define H5_HAVE_MINGW 1</h1>
-
-<h1>endif</h1>
-
-<h1>endif</h1>
-
-<p>//fixes second problem</p>
-
-<h1>define H5_BUILT_AS_DYNAMIC_LIB 1</h1>
-
-<p>```</p>
+//fixes second problem
+#define H5_BUILT_AS_DYNAMIC_LIB 1
+</code></pre>
 
 <p>Afterwards everything builds fine, and even make check went pretty well except for one error, which seemed harmless.</p>
 

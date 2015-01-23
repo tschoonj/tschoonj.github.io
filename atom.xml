@@ -4,7 +4,7 @@
   <title><![CDATA[The Code Dungeon]]></title>
   <link href="http://tschoonj.github.io/atom.xml" rel="self"/>
   <link href="http://tschoonj.github.io/"/>
-  <updated>2014-11-06T19:31:42+00:00</updated>
+  <updated>2015-01-23T13:39:39+01:00</updated>
   <id>http://tschoonj.github.io/</id>
   <author>
     <name><![CDATA[Tom Schoonjans]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[HDF5 on Windows: UTF-8 filenames support]]></title>
     <link href="http://tschoonj.github.io/blog/2014/11/06/hdf5-on-windows-utf-8-filenames-support/"/>
-    <updated>2014-11-06T18:10:35+00:00</updated>
+    <updated>2014-11-06T19:10:35+01:00</updated>
     <id>http://tschoonj.github.io/blog/2014/11/06/hdf5-on-windows-utf-8-filenames-support</id>
     <content type="html"><![CDATA[<p>In a previous <a href="http://tschoonj.github.io/blog/2014/01/29/building-a-64-bit-version-of-hdf5-with-mingw-w64/">post</a>, I have detailed my efforts in getting HDF5 compiled on Windows 64-bit using the MinGW-w64 compiler, which is currently (still) unsupported by the HDF5 developers. Now, I am reporting on yet another problem I encountered with HDF5 on Windows, that is blatantly being ignored by the developers: UTF-8 filename support.</p>
 
@@ -80,7 +80,7 @@
   <entry>
     <title type="html"><![CDATA[Gtk2 64-bit Windows Runtime Environment Installer: now on GitHub!]]></title>
     <link href="http://tschoonj.github.io/blog/2014/09/29/gtk2-64-bit-windows-runtime-environment-installer-now-on-github/"/>
-    <updated>2014-09-29T12:33:58+01:00</updated>
+    <updated>2014-09-29T13:33:58+02:00</updated>
     <id>http://tschoonj.github.io/blog/2014/09/29/gtk2-64-bit-windows-runtime-environment-installer-now-on-github</id>
     <content type="html"><![CDATA[<p>As predicted in my <a href="http://tschoonj.github.io/blog/2014/02/08/gtk2-64-bit-windows-runtime-environment-installer/">first post</a> on the Gtk2 64-bit Windows Runtime Environment Installer, I have indeed ventured into compiling Gtk (2.24.24) and all its dependencies, mainly because I was getting increasingly unhappy with the old Gtk 2.22.1 based bundle that <a href="http://www.gtk.org/download/win64.php">is being distributed</a> by the Gtk project. It was in fact this very bundle that I was using to generate the installer I announced in my first post on this subject.</p>
 
@@ -95,7 +95,7 @@
   <entry>
     <title type="html"><![CDATA[Building a CUDA device function library with autotools]]></title>
     <link href="http://tschoonj.github.io/blog/2014/05/10/building-a-cuda-device-function-library-with-autotools/"/>
-    <updated>2014-05-10T14:08:11+01:00</updated>
+    <updated>2014-05-10T15:08:11+02:00</updated>
     <id>http://tschoonj.github.io/blog/2014/05/10/building-a-cuda-device-function-library-with-autotools</id>
     <content type="html"><![CDATA[<p>I have recently started a new development branch in my <a href="http://github.com/tschoonj/xraylib">xraylib</a> project, where I will gradually be adding support for <a href="https://developer.nvidia.com/about-cuda">nVidia&rsquo;s CUDA platform</a>. Essentially the goal is to create a library containing CUDA device function equivalents of most functions that are currently offered by xraylib. Since there is not really much point to include functions that deal with strings, I will be leaving those out.</p>
 
@@ -389,7 +389,7 @@ fi
   <entry>
     <title type="html"><![CDATA[Gtk2 64-bit Windows Runtime Environment Installer]]></title>
     <link href="http://tschoonj.github.io/blog/2014/02/08/gtk2-64-bit-windows-runtime-environment-installer/"/>
-    <updated>2014-02-08T12:47:00+00:00</updated>
+    <updated>2014-02-08T12:47:00+01:00</updated>
     <id>http://tschoonj.github.io/blog/2014/02/08/gtk2-64-bit-windows-runtime-environment-installer</id>
     <content type="html"><![CDATA[<p><strong>Update: this post has been largely superseded by <a href="http://tschoonj.github.io/blog/2014/09/29/gtk2-64-bit-windows-runtime-environment-installer-now-on-github">http://tschoonj.github.io/blog/2014/09/29/gtk2-64-bit-windows-runtime-environment-installer-now-on-github</a> </strong></p>
 
@@ -399,7 +399,7 @@ fi
 
 <p>This being said, I still needed such an installer so I wrote one based on his NSIS script, using the official 64-bit Gtk+ packages for Windows 64-bit. The only major change I introduced was dropping support for the compatibility DLLs, which were redundant anyway. I am sharing the modified NSIS script as Github Gist so start hacking away at it. This script has some dependencies, apart from the DLLs, which are necessary to build the installer. Since I didn&rsquo;t change them at all, use the files that the original developer is sharing on <a href="http://sourceforge.net/p/gtk-win/code/HEAD/tree/">sourceforge</a>.</p>
 
-<p>The installer itself can be obtained <a href="http://lvserver.ugent.be/gtk-win64/gtk2-runtime-2.22.1-2014-02-01-ts-win64.exe">here</a>. If you would like to see an example on how to use this installer from within your own NSIS script, have a look at e.g. <a href="https://github.com/tschoonj/xmimsim/blob/master/nsis/xmimsim-win64.nsi.in">my XMI-MSIM Windows 64-bit installer</a>.</p>
+<p>The installer itself can be obtained <a href="http://lvserver.ugent.be/gtk-win64/">here</a>. If you would like to see an example on how to use this installer from within your own NSIS script, have a look at e.g. <a href="https://github.com/tschoonj/xmimsim/blob/master/nsis/xmimsim-win64.nsi.in">my XMI-MSIM Windows 64-bit installer</a>.</p>
 
 <!-- more -->
 
@@ -1307,7 +1307,7 @@ FunctionEnd
   <entry>
     <title type="html"><![CDATA[Building a 64-bit version of HDF5 with MinGW-w64]]></title>
     <link href="http://tschoonj.github.io/blog/2014/01/29/building-a-64-bit-version-of-hdf5-with-mingw-w64/"/>
-    <updated>2014-01-29T16:35:00+00:00</updated>
+    <updated>2014-01-29T16:35:00+01:00</updated>
     <id>http://tschoonj.github.io/blog/2014/01/29/building-a-64-bit-version-of-hdf5-with-mingw-w64</id>
     <content type="html"><![CDATA[<p>I have finally decided to try building a 64-bit version of the Windows package of <a href="http://github.com/tschoonj/xmimsim">XMI-MSIM</a>.
 As is the case for my 32-bit builds, I am using the MinGW compiler as provided by <a href="http://tdm-gcc.tdragon.net">TDM-GCC</a>, although obviously this time I opted for the 64-bit variant.
@@ -1376,7 +1376,7 @@ The third option disable the high-level bindings, while the last option makes su
   <entry>
     <title type="html"><![CDATA[Building libtool modules: Python bindings]]></title>
     <link href="http://tschoonj.github.io/blog/2013/09/04/building-libtool-modules-python-bindings/"/>
-    <updated>2013-09-04T10:47:00+01:00</updated>
+    <updated>2013-09-04T10:47:00+02:00</updated>
     <id>http://tschoonj.github.io/blog/2013/09/04/building-libtool-modules-python-bindings</id>
     <content type="html"><![CDATA[<p>One of the software packages (<a href="http://github.com/tschoonj/xraylib">xraylib</a>) I am working on, consists of a C-library with bindings to a number of other languages such as Python, Fortran 2003, IDL, Java, Ruby, Lua and Perl. Apart from IDL and Fortran 2003, the source code for these bindings is generated automatically using <a href="http://www.swig.org">swig</a>, although with considerable language-specific modifications to the swig interface file.</p>
 
@@ -1613,7 +1613,7 @@ However, recent versions of <a href="http://www.gnu.org/software/automake/manual
   <entry>
     <title type="html"><![CDATA[Exporting and printing a GtkExtra plot canvas]]></title>
     <link href="http://tschoonj.github.io/blog/2013/07/22/exporting-and-printing-a-gtkextra-plot-canvas/"/>
-    <updated>2013-07-22T10:24:00+01:00</updated>
+    <updated>2013-07-22T10:24:00+02:00</updated>
     <id>http://tschoonj.github.io/blog/2013/07/22/exporting-and-printing-a-gtkextra-plot-canvas</id>
     <content type="html"><![CDATA[<p>My software package <a href="http://github.com/tschoonj/xmimsim">XMI-MSIM</a> relies on <a href="http://gtkextra.sourceforge.net/cms/">GtkExtra</a> for the visualization of the simulated X-ray fluorescence spectra.
 This library contains a number of useful widgets, such as a spreadsheet widget and a number of plotting tools, for your Gtk2 based GUI&rsquo;s.
@@ -1709,7 +1709,7 @@ This is accomplished with the calls to <code>gtk_plot_canvas_plot_new</code> and
 
 <p>So far, we have defined the <code>GtkPlotCanvas</code> and the <code>GtkPlot</code>. The latter currently consists of an empty grid. I made things a bit more interesting by adding a graph of a sine function. The following lines calculate 1000 values of the sine function within the interval [0, 4π], and add them subsequently to a <code>GtkPlotData</code> variable, that in turn is added to the <code>GtkPlot</code> with <code>gtk_plot_add_data</code>
 As with the grid in the previous section, it is possible to change the properties of the graph using a few appropriately named functions.
-This part of the code finishes by drawing and showing all widgets. I am doing this here with several calls, some of which are definitely unnecessary, but the documentation and examples of GtkExtra are pretty unclear on how to do this (especially when updating, erasing canvases, plots etc). Anyway, calling all of them seems to work just fine :&ndash;)</p>
+This part of the code finishes by drawing and showing all widgets. I am doing this here with several calls, some of which are definitely unnecessary, but the documentation and examples of GtkExtra are pretty unclear on how to do this (especially when updating, erasing canvases, plots etc). Anyway, calling all of them seems to work just fine :-)</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -2068,7 +2068,7 @@ Keep in mind that up to today, GtkExtra is still only compatible with Gtk2. Howe
   <entry>
     <title type="html"><![CDATA[Checking for updates using git tags]]></title>
     <link href="http://tschoonj.github.io/blog/2013/07/08/checking-for-updates-using-git-tags/"/>
-    <updated>2013-07-08T19:39:00+01:00</updated>
+    <updated>2013-07-08T19:39:00+02:00</updated>
     <id>http://tschoonj.github.io/blog/2013/07/08/checking-for-updates-using-git-tags</id>
     <content type="html"><![CDATA[<p>At some point during the development of version 2.0 of my software package <a href="http://github.com/tschoonj/xmimsim">XMI-MSIM</a>, I decided to implement a routine that would allow for the program to check if newer versions (updates) were available. This would be extremely useful for the users of the Windows and Mac OS X builds of my package, since these operating systems do not come with package-management tools as most Linux distributions do (I am staying far away from Mac App Store and Windows store as I am not willing to pay their developer fees).</p>
 

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Gtk2 | The Code Dungeon]]></title>
+  <title><![CDATA[Category: gtk2 | The Code Dungeon]]></title>
   <link href="http://tschoonj.github.io/blog/categories/gtk2/atom.xml" rel="self"/>
   <link href="http://tschoonj.github.io/"/>
-  <updated>2014-11-06T19:31:42+00:00</updated>
+  <updated>2015-01-23T13:39:39+01:00</updated>
   <id>http://tschoonj.github.io/</id>
   <author>
     <name><![CDATA[Tom Schoonjans]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Gtk2 64-bit Windows Runtime Environment Installer: now on GitHub!]]></title>
     <link href="http://tschoonj.github.io/blog/2014/09/29/gtk2-64-bit-windows-runtime-environment-installer-now-on-github/"/>
-    <updated>2014-09-29T12:33:58+01:00</updated>
+    <updated>2014-09-29T13:33:58+02:00</updated>
     <id>http://tschoonj.github.io/blog/2014/09/29/gtk2-64-bit-windows-runtime-environment-installer-now-on-github</id>
     <content type="html"><![CDATA[<p>As predicted in my <a href="http://tschoonj.github.io/blog/2014/02/08/gtk2-64-bit-windows-runtime-environment-installer/">first post</a> on the Gtk2 64-bit Windows Runtime Environment Installer, I have indeed ventured into compiling Gtk (2.24.24) and all its dependencies, mainly because I was getting increasingly unhappy with the old Gtk 2.22.1 based bundle that <a href="http://www.gtk.org/download/win64.php">is being distributed</a> by the Gtk project. It was in fact this very bundle that I was using to generate the installer I announced in my first post on this subject.</p>
 
@@ -31,7 +31,7 @@
   <entry>
     <title type="html"><![CDATA[Gtk2 64-bit Windows Runtime Environment Installer]]></title>
     <link href="http://tschoonj.github.io/blog/2014/02/08/gtk2-64-bit-windows-runtime-environment-installer/"/>
-    <updated>2014-02-08T12:47:00+00:00</updated>
+    <updated>2014-02-08T12:47:00+01:00</updated>
     <id>http://tschoonj.github.io/blog/2014/02/08/gtk2-64-bit-windows-runtime-environment-installer</id>
     <content type="html"><![CDATA[<p><strong>Update: this post has been largely superseded by <a href="http://tschoonj.github.io/blog/2014/09/29/gtk2-64-bit-windows-runtime-environment-installer-now-on-github">http://tschoonj.github.io/blog/2014/09/29/gtk2-64-bit-windows-runtime-environment-installer-now-on-github</a> </strong></p>
 
@@ -41,7 +41,7 @@
 
 <p>This being said, I still needed such an installer so I wrote one based on his NSIS script, using the official 64-bit Gtk+ packages for Windows 64-bit. The only major change I introduced was dropping support for the compatibility DLLs, which were redundant anyway. I am sharing the modified NSIS script as Github Gist so start hacking away at it. This script has some dependencies, apart from the DLLs, which are necessary to build the installer. Since I didn&rsquo;t change them at all, use the files that the original developer is sharing on <a href="http://sourceforge.net/p/gtk-win/code/HEAD/tree/">sourceforge</a>.</p>
 
-<p>The installer itself can be obtained <a href="http://lvserver.ugent.be/gtk-win64/gtk2-runtime-2.22.1-2014-02-01-ts-win64.exe">here</a>. If you would like to see an example on how to use this installer from within your own NSIS script, have a look at e.g. <a href="https://github.com/tschoonj/xmimsim/blob/master/nsis/xmimsim-win64.nsi.in">my XMI-MSIM Windows 64-bit installer</a>.</p>
+<p>The installer itself can be obtained <a href="http://lvserver.ugent.be/gtk-win64/">here</a>. If you would like to see an example on how to use this installer from within your own NSIS script, have a look at e.g. <a href="https://github.com/tschoonj/xmimsim/blob/master/nsis/xmimsim-win64.nsi.in">my XMI-MSIM Windows 64-bit installer</a>.</p>
 
 <!-- more -->
 

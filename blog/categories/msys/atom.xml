@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: MSYS | The Code Dungeon]]></title>
+  <title><![CDATA[Category: msys | The Code Dungeon]]></title>
   <link href="http://tschoonj.github.io/blog/categories/msys/atom.xml" rel="self"/>
   <link href="http://tschoonj.github.io/"/>
-  <updated>2014-11-06T19:31:42+00:00</updated>
+  <updated>2015-01-23T13:39:39+01:00</updated>
   <id>http://tschoonj.github.io/</id>
   <author>
     <name><![CDATA[Tom Schoonjans]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Building a 64-bit version of HDF5 with MinGW-w64]]></title>
     <link href="http://tschoonj.github.io/blog/2014/01/29/building-a-64-bit-version-of-hdf5-with-mingw-w64/"/>
-    <updated>2014-01-29T16:35:00+00:00</updated>
+    <updated>2014-01-29T16:35:00+01:00</updated>
     <id>http://tschoonj.github.io/blog/2014/01/29/building-a-64-bit-version-of-hdf5-with-mingw-w64</id>
     <content type="html"><![CDATA[<p>I have finally decided to try building a 64-bit version of the Windows package of <a href="http://github.com/tschoonj/xmimsim">XMI-MSIM</a>.
 As is the case for my 32-bit builds, I am using the MinGW compiler as provided by <a href="http://tdm-gcc.tdragon.net">TDM-GCC</a>, although obviously this time I opted for the 64-bit variant.
@@ -32,9 +32,8 @@ Now XMI-MSIM has a considerable amount of dependencies (GTK+, GSL, HDF5, libxml2
 <p>As it turns out the HDF5 people have decided to drop support for building HDF5 with MinGW with their 1.8.5 release, and are currently only supporting builds on Windows with either cygwin (with the configure script) or Visual Studio (with CMake), none of which was suitable for me.
 I downloaded the latest version 1.8.12 from the <a href="http://www.hdfgroup.org/HDF5/release/obtainsrc.html">HDF5 website</a>, unpacked the tarball and ran:</p>
 
-<p><code>
-$ ./configure --host=x86_64-w64-mingw32 --build=x86_64-w64-mingw32 --disable-hl --prefix=$HOME
-</code></p>
+<pre><code>$ ./configure --host=x86_64-w64-mingw32 --build=x86_64-w64-mingw32 --disable-hl --prefix=$HOME
+</code></pre>
 
 <p>The two first options ensure that the configure script realizes that I am using a 64-bit MinGW compiler, which may be necessary for some tests to pass (at least with other packages I compiled this was necessary).
 The third option disable the high-level bindings, while the last option makes sure that they files will be installed in subfolders of my home directory.</p>
@@ -43,34 +42,22 @@ The third option disable the high-level bindings, while the last option makes su
 
 <p>The solution to both problems was to append the following lines to the src/H5pubconf.h within your <em>builddirectory</em>:</p>
 
-<p>``` c
-//fixes first problem</p>
+<pre><code class="c ">//fixes first problem
+#ifndef H5_HAVE_WIN32_API
+#ifdef WIN32 /* defined for all windows systems */
+#define H5_HAVE_WIN32_API 1
+#endif
+#endif
 
-<h1>ifndef H5_HAVE_WIN32_API</h1>
+#ifndef H5_HAVE_MINGW
+#ifdef __MINGW32__ /*defined for all MinGW compilers */
+#define H5_HAVE_MINGW 1
+#endif
+#endif
 
-<h1>ifdef WIN32 /<em> defined for all windows systems </em>/</h1>
-
-<h1>define H5_HAVE_WIN32_API 1</h1>
-
-<h1>endif</h1>
-
-<h1>endif</h1>
-
-<h1>ifndef H5_HAVE_MINGW</h1>
-
-<h1>ifdef <strong>MINGW32</strong> /<em>defined for all MinGW compilers </em>/</h1>
-
-<h1>define H5_HAVE_MINGW 1</h1>
-
-<h1>endif</h1>
-
-<h1>endif</h1>
-
-<p>//fixes second problem</p>
-
-<h1>define H5_BUILT_AS_DYNAMIC_LIB 1</h1>
-
-<p>```</p>
+//fixes second problem
+#define H5_BUILT_AS_DYNAMIC_LIB 1
+</code></pre>
 
 <p>Afterwards everything builds fine, and even make check went pretty well except for one error, which seemed harmless.</p>
 

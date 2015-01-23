@@ -4,7 +4,7 @@
   <title><![CDATA[Category: automake | The Code Dungeon]]></title>
   <link href="http://tschoonj.github.io/blog/categories/automake/atom.xml" rel="self"/>
   <link href="http://tschoonj.github.io/"/>
-  <updated>2014-11-06T19:31:42+00:00</updated>
+  <updated>2015-01-23T13:39:39+01:00</updated>
   <id>http://tschoonj.github.io/</id>
   <author>
     <name><![CDATA[Tom Schoonjans]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Building a CUDA device function library with autotools]]></title>
     <link href="http://tschoonj.github.io/blog/2014/05/10/building-a-cuda-device-function-library-with-autotools/"/>
-    <updated>2014-05-10T14:08:11+01:00</updated>
+    <updated>2014-05-10T15:08:11+02:00</updated>
     <id>http://tschoonj.github.io/blog/2014/05/10/building-a-cuda-device-function-library-with-autotools</id>
     <content type="html"><![CDATA[<p>I have recently started a new development branch in my <a href="http://github.com/tschoonj/xraylib">xraylib</a> project, where I will gradually be adding support for <a href="https://developer.nvidia.com/about-cuda">nVidia&rsquo;s CUDA platform</a>. Essentially the goal is to create a library containing CUDA device function equivalents of most functions that are currently offered by xraylib. Since there is not really much point to include functions that deal with strings, I will be leaving those out.</p>
 
@@ -37,7 +37,7 @@
 First of all, we can only create static libraries.
 This is not nearly as bad is at sounds: it will make the Makefile.am considerably simpler since we will be able to avoid using libtool this way. Libtool would really make things difficult here since we have to use the nvcc command with its non-standard options and have to define custom compilation rules for our source code files, at least assuming you follow the convention of giving your CUDA source files the .cu extension. In my case I ended up with this code:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -72,52 +72,42 @@ This is not nearly as bad is at sounds: it will make the Makefile.am considerabl
 <span class='line-number'>33</span>
 <span class='line-number'>34</span>
 <span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
 </pre></td><td class='code'><pre><code class='makefile'><span class='line'><span class="nv">xraylibincludedir</span> <span class="o">=</span> <span class="k">${</span><span class="nv">includedir</span><span class="k">}</span>/xraylib&lt;/p&gt;
 </span><span class='line'>
 </span><span class='line'><span class="err">&lt;p&gt;if</span> <span class="err">ENABLE_CUDA</span>
 </span><span class='line'><span class="nv">lib_LIBRARIES</span><span class="o">=</span>libxrlcuda.a
 </span><span class='line'><span class="nv">xraylibinclude_HEADERS</span> <span class="o">=</span> xraylib-cuda.h
-</span><span class='line'><span class="nv">libxrlcuda_a_SOURCES</span> <span class="o">=</span> xraylib-cuda.cu xraylib-cuda.h <span class="se">\&lt;</span>/p&gt;
-</span><span class='line'>
-</span><span class='line'><span class="err">&lt;pre&gt;&lt;code&gt;</span>           <span class="err">xraylib-cuda-private.h</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">atomiclevelwidth.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">atomicweight.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">auger_trans.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">comptonprofiles.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">coskron.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">cross_sections.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">densities.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">edges.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">fi.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">fii.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">fluor_yield.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">jump.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">radrate.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">scattering.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">kissel_pe.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">xrf_cross_sections_aux.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">cs_line.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">splint.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">fluor_lines.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">polarized.cu</span> <span class="err">\</span>
-</span><span class='line'>           <span class="err">cs_barns.cu</span>
-</span><span class='line'><span class="err">&lt;/code&gt;&lt;/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="err">&lt;p&gt;</span><span class="nv">libxrlcuda_a_CFLAGS</span> <span class="o">=</span> <span class="k">$(</span>CUDA_CFLAGS<span class="k">)</span> -I<span class="k">$(</span>top_srcdir<span class="k">)</span>/src -I<span class="k">$(</span>top_srcdir<span class="k">)</span>/include
+</span><span class='line'><span class="nv">libxrlcuda_a_SOURCES</span> <span class="o">=</span> xraylib-cuda.cu xraylib-cuda.h <span class="se">\</span>
+</span><span class='line'>               xraylib-cuda-private.h <span class="se">\</span>
+</span><span class='line'>               atomiclevelwidth.cu <span class="se">\</span>
+</span><span class='line'>               atomicweight.cu <span class="se">\</span>
+</span><span class='line'>               auger_trans.cu <span class="se">\</span>
+</span><span class='line'>               comptonprofiles.cu <span class="se">\</span>
+</span><span class='line'>               coskron.cu <span class="se">\</span>
+</span><span class='line'>               cross_sections.cu <span class="se">\</span>
+</span><span class='line'>               densities.cu <span class="se">\</span>
+</span><span class='line'>               edges.cu <span class="se">\</span>
+</span><span class='line'>               <span class="k">fi</span>.cu <span class="se">\</span>
+</span><span class='line'>               fii.cu <span class="se">\</span>
+</span><span class='line'>               fluor_yield.cu <span class="se">\</span>
+</span><span class='line'>               jump.cu <span class="se">\</span>
+</span><span class='line'>               radrate.cu <span class="se">\</span>
+</span><span class='line'>               scattering.cu <span class="se">\</span>
+</span><span class='line'>               kissel_pe.cu <span class="se">\</span>
+</span><span class='line'>               xrf_cross_sections_aux.cu <span class="se">\</span>
+</span><span class='line'>               cs_line.cu <span class="se">\</span>
+</span><span class='line'>               splint.cu <span class="se">\</span>
+</span><span class='line'>               fluor_lines.cu <span class="se">\</span>
+</span><span class='line'>               polarized.cu <span class="se">\</span>
+</span><span class='line'>               cs_barns.cu
+</span><span class='line'><span class="nv">libxrlcuda_a_CFLAGS</span> <span class="o">=</span> <span class="k">$(</span>CUDA_CFLAGS<span class="k">)</span> -I<span class="k">$(</span>top_srcdir<span class="k">)</span>/src -I<span class="k">$(</span>top_srcdir<span class="k">)</span>/include
 </span><span class='line'><span class="nv">libxrlcuda_a_AR</span> <span class="o">=</span> <span class="k">$(</span>NVCC<span class="k">)</span> -arch<span class="o">=</span>sm_20 -lib -o&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'><span class="nf">&lt;p&gt;.cu.o</span><span class="o">:</span> <span class="m">xraylib-cuda.h xraylib-cuda-private.h&lt;/p&gt;</span>
+</span><span class='line'><span class="nf">&lt;p&gt;.cu.o</span><span class="o">:</span> <span class="n">xraylib</span>-<span class="n">cuda</span>.<span class="n">h</span> <span class="n">xraylib</span>-<span class="n">cuda</span>-<span class="n">private</span>.<span class="n">h</span>
+</span><span class='line'>    <span class="k">$(</span>NVCC<span class="k">)</span> <span class="k">$(</span>libxrlcuda_a_CFLAGS<span class="k">)</span> -arch<span class="o">=</span>sm_20 -dc -o <span class="nv">$@</span> <span class="nv">$&amp;</span>lt<span class="p">;</span>&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'><span class="err">&lt;pre&gt;&lt;code&gt;</span><span class="k">$(</span>NVCC<span class="k">)</span> <span class="k">$(</span>libxrlcuda_a_CFLAGS<span class="k">)</span> -arch<span class="o">=</span>sm_20 -dc -o <span class="nv">$@</span> <span class="nv">$&amp;</span>lt;
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;endif
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span><span class='line'><span class="err">&lt;p&gt;endif</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>Note how I disabled libtool here: I included the <code>lib_LIBRARIES</code> variable instead of <code>lib_LTLIBRARIES</code>. This two letter difference will ensure that libtool is not being used!
 Two other things really set this file apart from typical Makefile.am&rsquo;s:</p>
@@ -139,7 +129,7 @@ Two other things really set this file apart from typical Makefile.am&rsquo;s:</p
 <p>xraylib contains an example folder with a Makefile.am that will handle the compilation and running of the examples whenever <code>make check</code> is invoked after successful building of the core library and its bindings. The example contains both device (CUDA kernels that use the device functions) as well as host code to launch the kernels and handle the I/O with the GPU.
 Here are the relevant sections of this file that deal with the cuda bindings example:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -155,12 +145,6 @@ Here are the relevant sections of this file that deal with the cuda bindings exa
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
 </pre></td><td class='code'><pre><code class='makefile'><span class='line'><span class="err">if</span> <span class="err">ENABLE_CUDA</span>
 </span><span class='line'>  <span class="nv">check_PROGRAMS</span> <span class="o">+=</span> xrlexample11
 </span><span class='line'><span class="err">endif&lt;/p&gt;</span>
@@ -169,21 +153,15 @@ Here are the relevant sections of this file that deal with the cuda bindings exa
 </span><span class='line'>  <span class="nv">xrlexample11_SOURCES</span> <span class="o">=</span> xrlexample11.cu
 </span><span class='line'>  <span class="nv">xrlexample11_LDADD</span> <span class="o">=</span> xrlcudalink.o ../src/libxrl.la  <span class="k">$(</span>CUDA_LDFLAGS<span class="k">)</span> ../cuda/libxrlcuda.a -lcudart
 </span><span class='line'>  <span class="nv">xrlexample11_CFLAGS</span> <span class="o">=</span> -I<span class="k">${</span><span class="nv">top_srcdir</span><span class="k">}</span>/include -I<span class="k">${</span><span class="nv">top_builddir</span><span class="k">}</span>/include -I<span class="k">${</span><span class="nv">top_srcdir</span><span class="k">}</span>/cuda -I<span class="k">${</span><span class="nv">top_srcdir</span><span class="k">}</span>/src
-</span><span class='line'>  <span class="nv">TESTS_ENVIRONMENT</span> <span class="o">=</span> <span class="nv">DYLD_LIBRARY_PATH</span><span class="o">=</span>&amp;ldquo;<span class="k">$(</span>CUDA_LIBDIR<span class="k">)</span>&amp;rdquo; <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>&amp;ldquo;<span class="k">$(</span>CUDA_LIBDIR<span class="k">)</span>&amp;rdquo;
+</span><span class='line'>  <span class="nv">TESTS_ENVIRONMENT</span> <span class="o">=</span> <span class="nv">DYLD_LIBRARY_PATH</span><span class="o">=</span><span class="p">&amp;</span>ldquo<span class="p">;</span><span class="k">$(</span>CUDA_LIBDIR<span class="k">)</span><span class="p">&amp;</span>rdquo<span class="p">;</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="p">&amp;</span>ldquo<span class="p">;</span><span class="k">$(</span>CUDA_LIBDIR<span class="k">)</span><span class="p">&amp;</span>rdquo<span class="p">;</span>
 </span><span class='line'><span class="err">endif&lt;/p&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="nf">&lt;p&gt;.cu.o</span><span class="o">:</span> <span class="m">../cuda/libxrlcuda.a&lt;/p&gt;</span>
+</span><span class='line'><span class="nf">&lt;p&gt;.cu.o</span><span class="o">:</span> ../<span class="n">cuda</span>/<span class="n">libxrlcuda</span>.<span class="n">a</span>
+</span><span class='line'>    <span class="k">$(</span>NVCC<span class="k">)</span> <span class="k">$(</span>xrlexample11_CFLAGS<span class="k">)</span> -arch<span class="o">=</span>sm_20 -dc -o <span class="nv">$@</span> <span class="nv">$&amp;</span>lt<span class="p">;</span>&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'><span class="err">&lt;pre&gt;&lt;code&gt;</span><span class="k">$(</span>NVCC<span class="k">)</span> <span class="k">$(</span>xrlexample11_CFLAGS<span class="k">)</span> -arch<span class="o">=</span>sm_20 -dc -o <span class="nv">$@</span> <span class="nv">$&amp;</span>lt;
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;xrlcudalink.o: xrlexample11.o ../cuda/libxrlcuda.a&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;<span class="k">$(</span>NVCC<span class="k">)</span> -arch<span class="o">=</span>sm_20 -dlink xrlexample11.o ../cuda/libxrlcuda.a -o xrlcudalink.o
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span><span class='line'><span class="nf">&lt;p&gt;xrlcudalink.o</span><span class="o">:</span> <span class="n">xrlexample</span>11.<span class="n">o</span> ../<span class="n">cuda</span>/<span class="n">libxrlcuda</span>.<span class="n">a</span>
+</span><span class='line'>    <span class="k">$(</span>NVCC<span class="k">)</span> -arch<span class="o">=</span>sm_20 -dlink xrlexample11.o ../cuda/libxrlcuda.a -o xrlcudalink.o
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>It&rsquo;s quite similar to the Makefile.am for the static library: the exact same build rule is required to compile the CUDA source code. Interesting is the <code>xrlcudalink.o</code> build rule which turns out to be essential to link the device code in the example with the device code in the library. The resulting file after linking needs to be added to the <code>LDADD</code> command to ensure it ends up in the eventual executable. I am not overriding the linker here, so the default one will be used which is just fine.</p>
 
@@ -321,7 +299,7 @@ fi
   <entry>
     <title type="html"><![CDATA[Building libtool modules: Python bindings]]></title>
     <link href="http://tschoonj.github.io/blog/2013/09/04/building-libtool-modules-python-bindings/"/>
-    <updated>2013-09-04T10:47:00+01:00</updated>
+    <updated>2013-09-04T10:47:00+02:00</updated>
     <id>http://tschoonj.github.io/blog/2013/09/04/building-libtool-modules-python-bindings</id>
     <content type="html"><![CDATA[<p>One of the software packages (<a href="http://github.com/tschoonj/xraylib">xraylib</a>) I am working on, consists of a C-library with bindings to a number of other languages such as Python, Fortran 2003, IDL, Java, Ruby, Lua and Perl. Apart from IDL and Fortran 2003, the source code for these bindings is generated automatically using <a href="http://www.swig.org">swig</a>, although with considerable language-specific modifications to the swig interface file.</p>
 
@@ -341,7 +319,7 @@ In this series of posts I will share my experiences on generating bindings to th
 <p>If you want to create an autotools based project consisting of a C-library and python bindings, then one of the first things that configure will need to check for is the presence of the python interpreter and the development kit consisting of the python headers and some essential tools.
 I accomplished this by adding the following lines into configure.ac</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -409,73 +387,61 @@ I accomplished this by adding the following lines into configure.ac</p>
 <span class='line-number'>66</span>
 <span class='line-number'>67</span>
 <span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>&lt;/p&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;h1&gt;configure.ac snippet&lt;/h1&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;h1&gt;copy paste into your own configure.ac file&lt;/h1&gt;
 </span><span class='line'>
-</span><span class='line'>&lt;h1&gt;check <span class="k">for </span>swig&lt;/h1&gt;
+</span><span class='line'>&lt;h1&gt;check <span class="k">for</span> swig&lt;/h1&gt;
 </span><span class='line'>
-</span><span class='line'>&lt;p&gt;AC_CHECK_PROGS<span class="o">([</span>SWIG<span class="o">]</span>,<span class="o">[</span>swig<span class="o">]</span>,<span class="o">[</span>&amp;ldquo;noswig&amp;rdquo;<span class="o">])</span>&lt;/p&gt;
+</span><span class='line'>&lt;p&gt;AC_CHECK_PROGS<span class="o">([</span>SWIG<span class="o">]</span>,<span class="o">[</span>swig<span class="o">]</span>,<span class="o">[</span><span class="p">&amp;</span>ldquo<span class="p">;</span>noswig<span class="p">&amp;</span>rdquo<span class="p">;</span><span class="o">])</span>&lt;/p&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;h1&gt;present configure with a <span class="nb">command</span>-line option to disable the python bindings&lt;/h1&gt;
 </span><span class='line'>
-</span><span class='line'>&lt;p&gt;AC_ARG_ENABLE<span class="o">([</span>python<span class="o">]</span>,<span class="o">[</span>AS_HELP_STRING<span class="o">([</span>&amp;mdash;disable-python<span class="o">]</span>,<span class="o">[</span>build without the python bindings<span class="o">])]</span>,<span class="o">[</span><span class="nv">enable_python</span><span class="o">=</span><span class="nv">$enableval</span><span class="o">]</span>,<span class="o">[</span><span class="nv">enable_python</span><span class="o">=</span>check<span class="o">])</span>&lt;/p&gt;
+</span><span class='line'>&lt;p&gt;AC_ARG_ENABLE<span class="o">([</span>python<span class="o">]</span>,<span class="o">[</span>AS_HELP_STRING<span class="o">([</span><span class="p">&amp;</span>ndash<span class="p">;</span>disable-python<span class="o">]</span>,<span class="o">[</span>build without the python bindings<span class="o">])]</span>,<span class="o">[</span><span class="nv">enable_python</span><span class="o">=</span><span class="nv">$enableval</span><span class="o">]</span>,<span class="o">[</span><span class="nv">enable_python</span><span class="o">=</span>check<span class="o">])</span>&lt;/p&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;h1&gt;default behavior is to install the python bindings into subfolders of <span class="nv">$prefix</span>&lt;/h1&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;h1&gt;however, this may require the user to <span class="nb">set </span>the PYTHONPATH environment variable&lt;/h1&gt;
 </span><span class='line'>
-</span><span class='line'>&lt;h1&gt;in order to avoid this, invoke configure with the &amp;mdash;enable-python-integration option&lt;/h1&gt;
+</span><span class='line'>&lt;h1&gt;in order to avoid this, invoke configure with the <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nb">enable</span>-python-integration option&lt;/h1&gt;
 </span><span class='line'>
-</span><span class='line'>&lt;p&gt;AC_ARG_ENABLE<span class="o">([</span>python-integration<span class="o">]</span>,<span class="o">[</span>AS_HELP_STRING<span class="o">([</span>&amp;mdash;enable-python-integration<span class="o">]</span>,<span class="o">[</span>install the python bindings in the interpreters site-packages folder<span class="o">])]</span>,<span class="o">[</span><span class="nv">enable_python_integration</span><span class="o">=</span><span class="nv">$enableval</span><span class="o">]</span>,<span class="o">[</span><span class="nv">enable_python_integration</span><span class="o">=</span>check<span class="o">])</span>&lt;/p&gt;
+</span><span class='line'>&lt;p&gt;AC_ARG_ENABLE<span class="o">([</span>python-integration<span class="o">]</span>,<span class="o">[</span>AS_HELP_STRING<span class="o">([</span><span class="p">&amp;</span>ndash<span class="p">;</span><span class="nb">enable</span>-python-integration<span class="o">]</span>,<span class="o">[</span>install the python bindings in the interpreters site-packages folder<span class="o">])]</span>,<span class="o">[</span><span class="nv">enable_python_integration</span><span class="o">=</span><span class="nv">$enableval</span><span class="o">]</span>,<span class="o">[</span><span class="nv">enable_python_integration</span><span class="o">=</span>check<span class="o">])</span>&lt;/p&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;p&gt;VALID_PYTHON<span class="o">=</span>&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'>&lt;p&gt;if <span class="nb">test</span> &amp;ldquo;x<span class="nv">$SWIG</span>&amp;rdquo; <span class="o">=</span> xnoswig &amp;amp;&amp;amp; <span class="nb">test</span> &amp;ldquo;x<span class="nv">$enable_python</span>&amp;rdquo; <span class="o">=</span> xyes ; <span class="k">then</span>&lt;/p&gt;
+</span><span class='line'>&lt;p&gt;if <span class="nb">test</span> <span class="p">&amp;</span>ldquo<span class="p">;</span>x<span class="nv">$SWIG</span><span class="p">&amp;</span>rdquo<span class="p">;</span> <span class="o">=</span> xnoswig <span class="p">&amp;</span>amp<span class="p">;&amp;</span>amp<span class="p">;</span> <span class="nb">test</span> <span class="p">&amp;</span>ldquo<span class="p">;</span>x<span class="nv">$enable_python</span><span class="p">&amp;</span>rdquo<span class="p">;</span> <span class="o">=</span> xyes <span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>        <span class="c">#don&amp;rsquo;t even bother when swig is not found</span>
+</span><span class='line'>        AC_MSG_ERROR<span class="o">([</span><span class="p">&amp;</span>ndash<span class="p">;</span><span class="nb">enable</span>-python was given as an option but swig was not found on the system<span class="o">])</span>
+</span><span class='line'><span class="k">elif</span> <span class="nb">test</span> <span class="p">&amp;</span>ldquo<span class="p">;</span>x<span class="nv">$SWIG</span><span class="p">&amp;</span>rdquo<span class="p">;</span> <span class="o">=</span> xswig <span class="p">&amp;</span>amp<span class="p">;&amp;</span>amp<span class="p">;</span> <span class="nb">test</span> <span class="p">&amp;</span>ldquo<span class="p">;</span>x<span class="nv">$enable_python</span><span class="p">&amp;</span>rdquo<span class="p">;</span> !<span class="o">=</span> xno <span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>        <span class="c">#verify the python installation</span>
+</span><span class='line'>        AM_PATH_PYTHON<span class="o">(</span>,<span class="o">[</span><span class="nv">PYTHON_FOUND</span><span class="o">=</span><span class="nb">true</span><span class="o">]</span>,<span class="o">[</span><span class="nv">PYTHON_FOUND</span><span class="o">=</span><span class="nb">false</span><span class="o">])</span>
+</span><span class='line'>        <span class="k">if</span> <span class="nb">test</span> <span class="p">&amp;</span>ldquo<span class="p">;</span>x<span class="nv">$PYTHON_FOUND</span><span class="p">&amp;</span>rdquo<span class="p">;</span> <span class="o">=</span> xtrue <span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>                <span class="nv">PYTHON_CPPFLAGS</span><span class="o">=</span>
+</span><span class='line'>                <span class="nv">PYTHON_LDFLAGS</span><span class="o">=</span>
+</span><span class='line'>                AX_PYTHON_DEVEL
+</span><span class='line'>                <span class="k">if</span> <span class="nb">test</span> <span class="p">&amp;</span>ldquo<span class="p">;</span>x<span class="nv">$PYTHON</span><span class="p">&amp;</span>rdquo<span class="p">;</span> <span class="o">=</span> x <span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>                        <span class="k">if</span> <span class="nb">test</span> <span class="p">&amp;</span>ldquo<span class="p">;</span>x<span class="nv">$enable_python</span><span class="p">&amp;</span>rdquo<span class="p">;</span> <span class="o">=</span> xyes <span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>                                AC_MSG_ERROR<span class="o">([</span>Incomplete python development package<span class="o">])</span>
+</span><span class='line'>                        <span class="k">else</span>
+</span><span class='line'>                                AC_MSG_WARN<span class="o">([</span>Incomplete python development package<span class="o">])</span>
+</span><span class='line'>                        <span class="k">fi</span>
+</span><span class='line'>                        <span class="nv">VALID_PYTHON</span><span class="o">=</span>no
+</span><span class='line'>                <span class="k">else</span>
+</span><span class='line'>                        <span class="nv">VALID_PYTHON</span><span class="o">=</span>yes
+</span><span class='line'>                <span class="k">fi</span>&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;    <span class="c">#don&#39;t even bother when swig is not found</span>
-</span><span class='line'>    AC_MSG_ERROR<span class="o">([</span>--enable-python was given as an option but swig was not found on the system<span class="o">])</span>
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;elif <span class="nb">test</span> &amp;ldquo;x<span class="nv">$SWIG</span>&amp;rdquo; <span class="o">=</span> xswig &amp;amp;&amp;amp; <span class="nb">test</span> &amp;ldquo;x<span class="nv">$enable_python</span>&amp;rdquo; !<span class="o">=</span> xno ; <span class="k">then</span>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;    <span class="c">#verify the python installation</span>
-</span><span class='line'>    AM_PATH_PYTHON<span class="o">(</span>,<span class="o">[</span><span class="nv">PYTHON_FOUND</span><span class="o">=</span><span class="nb">true</span><span class="o">]</span>,<span class="o">[</span><span class="nv">PYTHON_FOUND</span><span class="o">=</span><span class="nb">false</span><span class="o">])</span>
-</span><span class='line'>    <span class="k">if </span><span class="nb">test</span> <span class="s2">&quot;x$PYTHON_FOUND&quot;</span> <span class="o">=</span> xtrue ; <span class="k">then</span>
-</span><span class='line'><span class="k">            </span><span class="nv">PYTHON_CPPFLAGS</span><span class="o">=</span>
-</span><span class='line'>            <span class="nv">PYTHON_LDFLAGS</span><span class="o">=</span>
-</span><span class='line'>            AX_PYTHON_DEVEL
-</span><span class='line'>            <span class="k">if </span><span class="nb">test</span> <span class="s2">&quot;x$PYTHON&quot;</span> <span class="o">=</span> x ; <span class="k">then</span>
-</span><span class='line'><span class="k">                    if </span><span class="nb">test</span> <span class="s2">&quot;x$enable_python&quot;</span> <span class="o">=</span> xyes ; <span class="k">then</span>
-</span><span class='line'><span class="k">                            </span>AC_MSG_ERROR<span class="o">([</span>Incomplete python development package<span class="o">])</span>
-</span><span class='line'>                    <span class="k">else</span>
-</span><span class='line'><span class="k">                            </span>AC_MSG_WARN<span class="o">([</span>Incomplete python development package<span class="o">])</span>
-</span><span class='line'>                    <span class="k">fi</span>
-</span><span class='line'><span class="k">                    </span><span class="nv">VALID_PYTHON</span><span class="o">=</span>no
-</span><span class='line'>            <span class="k">else</span>
-</span><span class='line'><span class="k">                    </span><span class="nv">VALID_PYTHON</span><span class="o">=</span>yes
-</span><span class='line'>            <span class="k">fi</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">    fi</span>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;    <span class="k">fi</span>
 </span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;p&gt;fi&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'>&lt;p&gt;if <span class="nb">test</span> &amp;ldquo;x<span class="nv">$VALID_PYTHON</span>&amp;rdquo; <span class="o">=</span> xyes ; <span class="k">then</span>&lt;/p&gt;
+</span><span class='line'>&lt;p&gt;if <span class="nb">test</span> <span class="p">&amp;</span>ldquo<span class="p">;</span>x<span class="nv">$VALID_PYTHON</span><span class="p">&amp;</span>rdquo<span class="p">;</span> <span class="o">=</span> xyes <span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>    AC_MSG_NOTICE<span class="o">([</span>Building with Python bindings<span class="o">])</span>&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;AC_MSG_NOTICE<span class="o">([</span>Building with Python bindings<span class="o">])</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="k">if </span><span class="nb">test</span> <span class="s2">&quot;x$enable_python_integration&quot;</span> <span class="o">=</span> xyes ; <span class="k">then</span>
-</span><span class='line'><span class="k">        </span><span class="nv">pythondir</span><span class="o">=</span><span class="nv">$PYTHON_SITE_PKG</span>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;if <span class="nb">test</span> <span class="s2">&quot;x$enable_python_integration&quot;</span> <span class="o">=</span> xyes <span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>        <span class="nv">pythondir</span><span class="o">=</span><span class="nv">$PYTHON_SITE_PKG</span>
 </span><span class='line'>        <span class="nv">pyexecdir</span><span class="o">=</span><span class="nv">$PYTHON_SITE_PKG_EXEC</span>
 </span><span class='line'><span class="k">fi</span>
 </span><span class='line'>
@@ -489,7 +455,7 @@ I accomplished this by adding the following lines into configure.ac</p>
 </span><span class='line'>&lt;p&gt;fi&lt;/p&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;p&gt;AM_CONDITIONAL<span class="o">([</span>ENABLE_PYTHON<span class="o">]</span>,<span class="o">[</span><span class="nb">test </span>x<span class="nv">$VALID_PYTHON</span> <span class="o">=</span> xyes<span class="o">])</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>As can be seen from this snippet, I depend on two m4 macros to obtain the required information: <a href="http://www.gnu.org/software/automake/manual/html_node/Python.html">AM_PATH_PYTHON</a>, which searches for Python interpreter and subsequently sets a number of variables that will be used at installation time, and AX_PYTHON_DEVEL (I am using a heavily modified version of the code found at <a href="http://www.gnu.org/software/autoconf-archive/ax_python_devel.html">autoconf archives</a>), which will check for the required headers and perform a test compilation to make sure everything works.</p>
 
@@ -499,11 +465,11 @@ I accomplished this by adding the following lines into configure.ac</p>
 However, recent versions of <a href="http://www.gnu.org/software/automake/manual/html_node/Python.html">automake</a> come with built-in support for installing python source files (and even byte-compile them), and comes with some recommendations on how to build your Python extensions module (possibly linked to a C-library as in our case) using libtool. The following example code is based upon these recommendations but also contains additional Makefile targets that deal with generating the Python extension module source through swig. Let&rsquo;s assume our original C-library is called <code>mytest</code>, and is located in the <code>src</code> subfolder of the source tree. The Python bindings will be built in the <code>python</code> subfolder.</p>
 
 <p>In this example, I followed the Python recommendations with regard to naming the extension module:
-<blockquote><p>When an extension module written in C or C++ has an accompanying Python module that provides a higher level (e.g. more object oriented) interface, the C/C++ module has a leading underscore.</p><footer><strong><a href="http://www.python.org/dev/peps/pep-0008/#package-and-module-names">http://www.python.org/dev/peps/pep-0008/#package-and-module-names</a> PEP 8 &mdash; Style Guide for Python Code</strong></footer></blockquote></p>
+<blockquote><p>When an extension module written in C or C++ has an accompanying Python module that provides a higher level (e.g. more object oriented) interface, the C/C++ module has a leading underscore.</p><footer><strong><a href="http://www.python.org/dev/peps/pep-0008/#package-and-module-names">http://www.python.org/dev/peps/pep-0008/#package-and-module-names</a> PEP 8 &ndash; Style Guide for Python Code</strong></footer></blockquote></p>
 
 <p>In this case, the accompanying Python module will be automatically generated by swig, and will be called <code>mytest.py</code>, while the extension module will receive the libtool name <code>_mytest.la</code>. The actual library extension will be platform dependent (.so on Linux/Mac OS X, .dll on Windows).</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -547,10 +513,6 @@ However, recent versions of <a href="http://www.gnu.org/software/automake/manual
 <span class='line-number'>42</span>
 <span class='line-number'>43</span>
 <span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
 </pre></td><td class='code'><pre><code class='makefile'><span class='line'><span class="err">&lt;/p&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="err">&lt;h1&gt;python</span> <span class="err">bindings</span> <span class="err">will</span> <span class="err">only</span> <span class="err">be</span> <span class="err">built</span> <span class="err">if</span> <span class="err">all</span> <span class="err">buildtools</span> <span class="err">are</span> <span class="err">available,</span> <span class="err">hence</span> <span class="err">the</span> <span class="err">following</span> <span class="err">automake</span> <span class="err">conditional&lt;/h1&gt;</span>
@@ -584,30 +546,25 @@ However, recent versions of <a href="http://www.gnu.org/software/automake/manual
 </span><span class='line'>
 </span><span class='line'><span class="err">&lt;h1&gt;this</span> <span class="err">line</span> <span class="err">assumes</span> <span class="err">that</span> <span class="err">the</span> <span class="err">swig</span> <span class="err">interface</span> <span class="err">file</span> <span class="err">mytest.i</span> <span class="err">is</span> <span class="err">located</span> <span class="err">in</span> <span class="err">the</span> <span class="err">src</span> <span class="err">subdirectory&lt;/h1&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="nf">&lt;p&gt;mytest_wrap.c</span><span class="o">:</span> <span class="m">$(top_srcdir)/src/mytest.i&lt;/p&gt;</span>
+</span><span class='line'><span class="nf">&lt;p&gt;mytest_wrap.c</span><span class="o">:</span> <span class="k">$(</span><span class="nv">top_srcdir</span><span class="k">)</span>/<span class="n">src</span>/<span class="n">mytest</span>.<span class="n">i</span>
+</span><span class='line'>    <span class="k">$(</span>SWIG<span class="k">)</span> -I<span class="k">${</span><span class="nv">top_srcdir</span><span class="k">}</span>/include -includeall -o mytest_wrap.c -python <span class="k">${</span><span class="nv">top_srcdir</span><span class="k">}</span>/src/mytest.i&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'><span class="err">&lt;pre&gt;&lt;code&gt;</span><span class="k">$(</span>SWIG<span class="k">)</span> -I<span class="k">${</span><span class="nv">top_srcdir</span><span class="k">}</span>/include -includeall -o mytest_wrap.c -python <span class="k">${</span><span class="nv">top_srcdir</span><span class="k">}</span>/src/mytest.i
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'><span class="nf">&lt;p&gt;mytest.py</span><span class="o">:</span> <span class="n">mytest_wrap</span>.<span class="n">c</span>&lt;/<span class="n">p</span>&gt;
 </span><span class='line'>
-</span><span class='line'>&lt;p&gt;mytest.py: mytest_wrap.c&lt;/p&gt;
+</span><span class='line'><span class="nf">&lt;p&gt;clean-local</span><span class="o">:</span>
+</span><span class='line'>    rm -rf mytest_wrap.c mytest.py mytest.pyc&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'>&lt;p&gt;clean-local:&lt;/p&gt;
+</span><span class='line'><span class="err">&lt;p&gt;endif&lt;/p&gt;</span>
 </span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;rm -rf mytest_wrap.c mytest.py mytest.pyc
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;endif&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span><span class='line'><span class="err">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>When writing an autotools based project using these guidelines, you should have no problem compiling and installing your python bindings and the C-library it depends on, with the familiar commands:</p>
 
-<p><code>
-./configure
+<pre><code>./configure
 make
 make install
-</code></p>
+</code></pre>
 
 <h2>The code</h2>
 
