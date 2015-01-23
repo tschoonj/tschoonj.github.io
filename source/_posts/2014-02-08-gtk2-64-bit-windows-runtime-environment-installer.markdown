@@ -15,7 +15,7 @@ In the end I also managed to build all the other dependencies I needed for [XMI-
 
 This being said, I still needed such an installer so I wrote one based on his NSIS script, using the official 64-bit Gtk+ packages for Windows 64-bit. The only major change I introduced was dropping support for the compatibility DLLs, which were redundant anyway. I am sharing the modified NSIS script as Github Gist so start hacking away at it. This script has some dependencies, apart from the DLLs, which are necessary to build the installer. Since I didn't change them at all, use the files that the original developer is sharing on [sourceforge](http://sourceforge.net/p/gtk-win/code/HEAD/tree/).
 
-The installer itself can be obtained [here](http://lvserver.ugent.be/gtk-win64/gtk2-runtime-2.22.1-2014-02-01-ts-win64.exe). If you would like to see an example on how to use this installer from within your own NSIS script, have a look at e.g. [my XMI-MSIM Windows 64-bit installer](https://github.com/tschoonj/xmimsim/blob/master/nsis/xmimsim-win64.nsi.in).
+The installer itself can be obtained [here](http://lvserver.ugent.be/gtk-win64/). If you would like to see an example on how to use this installer from within your own NSIS script, have a look at e.g. [my XMI-MSIM Windows 64-bit installer](https://github.com/tschoonj/xmimsim/blob/master/nsis/xmimsim-win64.nsi.in).
 
 <!-- more -->
 
