@@ -4,7 +4,7 @@
   <title><![CDATA[Category: gtkmm3 | The Code Dungeon]]></title>
   <link href="http://tschoonj.github.io/blog/categories/gtkmm3/atom.xml" rel="self"/>
   <link href="http://tschoonj.github.io/"/>
-  <updated>2015-07-09T15:28:16+02:00</updated>
+  <updated>2015-07-22T17:28:07+02:00</updated>
   <id>http://tschoonj.github.io/</id>
   <author>
     <name><![CDATA[Tom Schoonjans]]></name>
@@ -18,7 +18,9 @@
     <link href="http://tschoonj.github.io/blog/2015/07/05/embedding-plplot-in-gtk-drawingareas/"/>
     <updated>2015-07-05T17:22:39+02:00</updated>
     <id>http://tschoonj.github.io/blog/2015/07/05/embedding-plplot-in-gtk-drawingareas</id>
-    <content type="html"><![CDATA[<p>Scientific plotting and Gtk+ have never been good friends. Over the years there have been a number of efforts like <a href="http://gtkextra.sourceforge.net/cms/">GtkExtra</a>, <a href="http://sourceforge.net/projects/gtkdatabox/">GtkDataBox</a>, <a href="https://github.com/drahnr/goatplot">GoatPlot</a>, <a href="http://gtkgraph.sourceforge.net">GtkGraph</a>&hellip; Unfortunately these packages all appear to share a lack of active development (most are in fact abandoned), poor to non-existent documentation and in most cases lack of support for Gtk+3.</p>
+    <content type="html"><![CDATA[<p><strong>Update: I have turned this post into a Github project called <a href="https://github.com/tschoonj/gtkmm-plplot">Gtkmm-PLplot</a>, under the GPLv3</strong></p>
+
+<p>Scientific plotting and Gtk+ have never been good friends. Over the years there have been a number of efforts like <a href="http://gtkextra.sourceforge.net/cms/">GtkExtra</a>, <a href="http://sourceforge.net/projects/gtkdatabox/">GtkDataBox</a>, <a href="https://github.com/drahnr/goatplot">GoatPlot</a>, <a href="http://gtkgraph.sourceforge.net">GtkGraph</a>&hellip; Unfortunately these packages all appear to share a lack of active development (most are in fact abandoned), poor to non-existent documentation and in most cases lack of support for Gtk+3.</p>
 
 <p>For about a year or two I have been a minor contributor to GtkExtra, and I had started migrating the plotting widgets to Gtk+3 but I had to abandon my effort due to lack of knowledge of Cairo and Gtk+ internals, and more importantly a lack of time. I still use it in the Gtk+2 based GUI of my <a href="https://github.com/tschoonj/xmimsim">XMI-MSIM</a> package though.</p>
 
