@@ -6,6 +6,8 @@ comments: true
 categories: [PLplot, gtk3, gtkmm3]
 ---
 
+**Update: I have turned this post into a Github project called [Gtkmm-PLplot](https://github.com/tschoonj/gtkmm-plplot), under the GPLv3**
+
 Scientific plotting and Gtk+ have never been good friends. Over the years there have been a number of efforts like [GtkExtra](http://gtkextra.sourceforge.net/cms/), [GtkDataBox](http://sourceforge.net/projects/gtkdatabox/), [GoatPlot](https://github.com/drahnr/goatplot), [GtkGraph](http://gtkgraph.sourceforge.net)... Unfortunately these packages all appear to share a lack of active development (most are in fact abandoned), poor to non-existent documentation and in most cases lack of support for Gtk+3.
 
 For about a year or two I have been a minor contributor to GtkExtra, and I had started migrating the plotting widgets to Gtk+3 but I had to abandon my effort due to lack of knowledge of Cairo and Gtk+ internals, and more importantly a lack of time. I still use it in the Gtk+2 based GUI of my [XMI-MSIM](https://github.com/tschoonj/xmimsim) package though.
