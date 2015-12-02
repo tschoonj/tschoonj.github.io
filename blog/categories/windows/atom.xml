@@ -4,7 +4,7 @@
   <title><![CDATA[Category: windows | The Code Dungeon]]></title>
   <link href="http://tschoonj.github.io/blog/categories/windows/atom.xml" rel="self"/>
   <link href="http://tschoonj.github.io/"/>
-  <updated>2015-07-22T17:28:07+02:00</updated>
+  <updated>2015-12-02T11:01:00+00:00</updated>
   <id>http://tschoonj.github.io/</id>
   <author>
     <name><![CDATA[Tom Schoonjans]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[HDF5 on Windows: UTF-8 filenames support]]></title>
     <link href="http://tschoonj.github.io/blog/2014/11/06/hdf5-on-windows-utf-8-filenames-support/"/>
-    <updated>2014-11-06T19:10:35+01:00</updated>
+    <updated>2014-11-06T18:10:35+00:00</updated>
     <id>http://tschoonj.github.io/blog/2014/11/06/hdf5-on-windows-utf-8-filenames-support</id>
     <content type="html"><![CDATA[<p>In a previous <a href="http://tschoonj.github.io/blog/2014/01/29/building-a-64-bit-version-of-hdf5-with-mingw-w64/">post</a>, I have detailed my efforts in getting HDF5 compiled on Windows 64-bit using the MinGW-w64 compiler, which is currently (still) unsupported by the HDF5 developers. Now, I am reporting on yet another problem I encountered with HDF5 on Windows, that is blatantly being ignored by the developers: UTF-8 filename support.</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: gtkmm3 | The Code Dungeon]]></title>
   <link href="http://tschoonj.github.io/blog/categories/gtkmm3/atom.xml" rel="self"/>
   <link href="http://tschoonj.github.io/"/>
-  <updated>2015-07-22T17:28:07+02:00</updated>
+  <updated>2015-12-02T11:01:00+00:00</updated>
   <id>http://tschoonj.github.io/</id>
   <author>
     <name><![CDATA[Tom Schoonjans]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Embedding PLplot in Gtk DrawingAreas]]></title>
     <link href="http://tschoonj.github.io/blog/2015/07/05/embedding-plplot-in-gtk-drawingareas/"/>
-    <updated>2015-07-05T17:22:39+02:00</updated>
+    <updated>2015-07-05T16:22:39+01:00</updated>
     <id>http://tschoonj.github.io/blog/2015/07/05/embedding-plplot-in-gtk-drawingareas</id>
     <content type="html"><![CDATA[<p><strong>Update: I have turned this post into a Github project called <a href="https://github.com/tschoonj/gtkmm-plplot">Gtkmm-PLplot</a>, under the GPLv3</strong></p>
 
