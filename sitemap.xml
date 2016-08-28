@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://tschoonj.github.io/blog/2016/08/28/easyrng-random-number-generators-and-distributions-for-c-and-fortran/</loc>
+    <lastmod>2016-08-28T16:14:02+01:00</lastmod>
+  </url>
+  <url>
     <loc>http://tschoonj.github.io/blog/2015/07/05/embedding-plplot-in-gtk-drawingareas/</loc>
     <lastmod>2015-07-05T16:22:39+01:00</lastmod>
   </url>
@@ -116,5 +120,14 @@
   </url>
   <url>
     <loc>http://tschoonj.github.io/blog/categories/gtkmm3/</loc>
+  </url>
+  <url>
+    <loc>http://tschoonj.github.io/blog/categories/c-plus-plus/</loc>
+  </url>
+  <url>
+    <loc>http://tschoonj.github.io/blog/categories/fortran/</loc>
+  </url>
+  <url>
+    <loc>http://tschoonj.github.io/blog/categories/random-number-generators/</loc>
   </url>
 </urlset>
