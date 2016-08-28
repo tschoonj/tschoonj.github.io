@@ -3,7 +3,7 @@ layout: post
 title: "Embedding PLplot in Gtk DrawingAreas"
 date: 2015-07-05 17:22:39 +0200
 comments: true
-categories: [PLplot, gtk3, gtkmm3]
+categories: [PLplot, gtk3, gtkmm3, c++]
 ---
 
 **Update: I have turned this post into a Github project called [Gtkmm-PLplot](https://github.com/tschoonj/gtkmm-plplot), under the GPLv3**
