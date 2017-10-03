@@ -113,6 +113,8 @@ navigation:
   url: /index.html
 - text: Archives
   url: /blog/archives/index.html
+- text: Categories
+  url: /blog/categories/index.html
 - text: About
   url: /about/index.html
 
