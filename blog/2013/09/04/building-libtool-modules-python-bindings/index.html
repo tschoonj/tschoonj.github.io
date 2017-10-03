@@ -64,6 +64,8 @@
     
         <li ><a href="/blog/archives/index.html">Archives</a></li>
     
+        <li ><a href="/blog/categories/index.html">Categories</a></li>
+    
         <li ><a href="/about/index.html">About</a></li>
     
 </ul>
@@ -209,42 +211,42 @@ I accomplished this by adding the following lines into configure.ac</p>
 </span><span class='line'>
 </span><span class='line'><span class="nv">VALID_PYTHON</span><span class="o">=</span>
 </span><span class='line'>
-</span><span class='line'><span class="k">if </span><span class="nb">test</span> <span class="s2">&quot;x$SWIG&quot;</span> <span class="o">=</span> xnoswig <span class="o">&amp;&amp;</span> <span class="nb">test</span> <span class="s2">&quot;x$enable_python&quot;</span> <span class="o">=</span> xyes ; <span class="k">then</span>
+</span><span class='line'><span class="k">if</span> <span class="nb">test</span> <span class="s2">&quot;x$SWIG&quot;</span> <span class="o">=</span> xnoswig <span class="o">&amp;&amp;</span> <span class="nb">test</span> <span class="s2">&quot;x$enable_python&quot;</span> <span class="o">=</span> xyes <span class="p">;</span> <span class="k">then</span>
 </span><span class='line'>        <span class="c">#don&#39;t even bother when swig is not found</span>
 </span><span class='line'>        AC_MSG_ERROR<span class="o">([</span>--enable-python was given as an option but swig was not found on the system<span class="o">])</span>
-</span><span class='line'><span class="k">elif </span><span class="nb">test</span> <span class="s2">&quot;x$SWIG&quot;</span> <span class="o">=</span> xswig <span class="o">&amp;&amp;</span> <span class="nb">test</span> <span class="s2">&quot;x$enable_python&quot;</span> !<span class="o">=</span> xno ; <span class="k">then</span>
+</span><span class='line'><span class="k">elif</span> <span class="nb">test</span> <span class="s2">&quot;x$SWIG&quot;</span> <span class="o">=</span> xswig <span class="o">&amp;&amp;</span> <span class="nb">test</span> <span class="s2">&quot;x$enable_python&quot;</span> !<span class="o">=</span> xno <span class="p">;</span> <span class="k">then</span>
 </span><span class='line'>        <span class="c">#verify the python installation</span>
 </span><span class='line'>        AM_PATH_PYTHON<span class="o">(</span>,<span class="o">[</span><span class="nv">PYTHON_FOUND</span><span class="o">=</span><span class="nb">true</span><span class="o">]</span>,<span class="o">[</span><span class="nv">PYTHON_FOUND</span><span class="o">=</span><span class="nb">false</span><span class="o">])</span>
-</span><span class='line'>        <span class="k">if </span><span class="nb">test</span> <span class="s2">&quot;x$PYTHON_FOUND&quot;</span> <span class="o">=</span> xtrue ; <span class="k">then</span>
-</span><span class='line'><span class="k">                </span><span class="nv">PYTHON_CPPFLAGS</span><span class="o">=</span>
+</span><span class='line'>        <span class="k">if</span> <span class="nb">test</span> <span class="s2">&quot;x$PYTHON_FOUND&quot;</span> <span class="o">=</span> xtrue <span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>                <span class="nv">PYTHON_CPPFLAGS</span><span class="o">=</span>
 </span><span class='line'>                <span class="nv">PYTHON_LDFLAGS</span><span class="o">=</span>
 </span><span class='line'>                AX_PYTHON_DEVEL
-</span><span class='line'>                <span class="k">if </span><span class="nb">test</span> <span class="s2">&quot;x$PYTHON&quot;</span> <span class="o">=</span> x ; <span class="k">then</span>
-</span><span class='line'><span class="k">                        if </span><span class="nb">test</span> <span class="s2">&quot;x$enable_python&quot;</span> <span class="o">=</span> xyes ; <span class="k">then</span>
-</span><span class='line'><span class="k">                                </span>AC_MSG_ERROR<span class="o">([</span>Incomplete python development package<span class="o">])</span>
+</span><span class='line'>                <span class="k">if</span> <span class="nb">test</span> <span class="s2">&quot;x$PYTHON&quot;</span> <span class="o">=</span> x <span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>                        <span class="k">if</span> <span class="nb">test</span> <span class="s2">&quot;x$enable_python&quot;</span> <span class="o">=</span> xyes <span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>                                AC_MSG_ERROR<span class="o">([</span>Incomplete python development package<span class="o">])</span>
 </span><span class='line'>                        <span class="k">else</span>
-</span><span class='line'><span class="k">                                </span>AC_MSG_WARN<span class="o">([</span>Incomplete python development package<span class="o">])</span>
+</span><span class='line'>                                AC_MSG_WARN<span class="o">([</span>Incomplete python development package<span class="o">])</span>
 </span><span class='line'>                        <span class="k">fi</span>
-</span><span class='line'><span class="k">                        </span><span class="nv">VALID_PYTHON</span><span class="o">=</span>no
+</span><span class='line'>                        <span class="nv">VALID_PYTHON</span><span class="o">=</span>no
 </span><span class='line'>                <span class="k">else</span>
-</span><span class='line'><span class="k">                        </span><span class="nv">VALID_PYTHON</span><span class="o">=</span>yes
+</span><span class='line'>                        <span class="nv">VALID_PYTHON</span><span class="o">=</span>yes
 </span><span class='line'>                <span class="k">fi</span>
 </span><span class='line'>
-</span><span class='line'><span class="k">        fi</span>
+</span><span class='line'>        <span class="k">fi</span>
 </span><span class='line'><span class="k">fi</span>
 </span><span class='line'>
 </span><span class='line'>
-</span><span class='line'><span class="k">if </span><span class="nb">test</span> <span class="s2">&quot;x$VALID_PYTHON&quot;</span> <span class="o">=</span> xyes ; <span class="k">then</span>
-</span><span class='line'><span class="k">  </span>AC_MSG_NOTICE<span class="o">([</span>Building with Python bindings<span class="o">])</span>
+</span><span class='line'><span class="k">if</span> <span class="nb">test</span> <span class="s2">&quot;x$VALID_PYTHON&quot;</span> <span class="o">=</span> xyes <span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>  AC_MSG_NOTICE<span class="o">([</span>Building with Python bindings<span class="o">])</span>
 </span><span class='line'>
 </span><span class='line'>
-</span><span class='line'>  <span class="k">if </span><span class="nb">test</span> <span class="s2">&quot;x$enable_python_integration&quot;</span> <span class="o">=</span> xyes ; <span class="k">then</span>
-</span><span class='line'><span class="k">          </span><span class="nv">pythondir</span><span class="o">=</span><span class="nv">$PYTHON_SITE_PKG</span>
+</span><span class='line'>  <span class="k">if</span> <span class="nb">test</span> <span class="s2">&quot;x$enable_python_integration&quot;</span> <span class="o">=</span> xyes <span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>          <span class="nv">pythondir</span><span class="o">=</span><span class="nv">$PYTHON_SITE_PKG</span>
 </span><span class='line'>          <span class="nv">pyexecdir</span><span class="o">=</span><span class="nv">$PYTHON_SITE_PKG_EXEC</span>
 </span><span class='line'>  <span class="k">fi</span>
 </span><span class='line'>
 </span><span class='line'>
-</span><span class='line'><span class="k">  </span>AC_SUBST<span class="o">(</span>PYTHONDIR,<span class="nv">$pythondir</span><span class="o">)</span>
+</span><span class='line'>  AC_SUBST<span class="o">(</span>PYTHONDIR,<span class="nv">$pythondir</span><span class="o">)</span>
 </span><span class='line'>  AC_SUBST<span class="o">(</span>PKGPYTHONDIR,<span class="nv">$pkgpythondir</span><span class="o">)</span>
 </span><span class='line'>  AC_SUBST<span class="o">(</span>PYEXECDIR,<span class="nv">$pyexecdir</span><span class="o">)</span>
 </span><span class='line'>  AC_SUBST<span class="o">(</span>PKGPYEXECDIR,<span class="nv">$pkgpyexecdir</span><span class="o">)</span>
@@ -315,10 +317,10 @@ However, recent versions of <a href="http://www.gnu.org/software/automake/manual
 </span><span class='line'><span class="nv">nodist_python_PYTHON</span> <span class="o">=</span> mytest.py
 </span><span class='line'>
 </span><span class='line'><span class="c">#this line assumes that the swig interface file mytest.i is located in the src subdirectory</span>
-</span><span class='line'><span class="nf">mytest_wrap.c</span><span class="o">:</span> <span class="m">$(top_srcdir)/src/mytest.i</span>
+</span><span class='line'><span class="nf">mytest_wrap.c</span><span class="o">:</span> <span class="k">$(</span><span class="nv">top_srcdir</span><span class="k">)</span>/<span class="n">src</span>/<span class="n">mytest</span>.<span class="n">i</span>
 </span><span class='line'>  <span class="k">$(</span>SWIG<span class="k">)</span> -I<span class="k">${</span><span class="nv">top_srcdir</span><span class="k">}</span>/include -includeall -o mytest_wrap.c -python <span class="k">${</span><span class="nv">top_srcdir</span><span class="k">}</span>/src/mytest.i
 </span><span class='line'>
-</span><span class='line'><span class="nf">mytest.py</span><span class="o">:</span> <span class="m">mytest_wrap.c</span>
+</span><span class='line'><span class="nf">mytest.py</span><span class="o">:</span> <span class="n">mytest_wrap</span>.<span class="n">c</span>
 </span><span class='line'>
 </span><span class='line'><span class="nf">clean-local</span><span class="o">:</span>
 </span><span class='line'>  rm -rf mytest_wrap.c mytest.py mytest.pyc
@@ -342,7 +344,34 @@ However, recent versions of <a href="http://www.gnu.org/software/automake/manual
 <p>The full code follows: as usual it&rsquo;s a github gist so feel free to clone it and hack away at it.</p>
 
 <div><script src='https://gist.github.com/6441999.js'></script>
-<noscript><pre><code></code></pre></noscript></div>
+<noscript><pre><code>#python bindings will only be built if all buildtools are available, hence the following automake conditional
+if ENABLE_PYTHON
+#our python extension module
+pyexec_LTLIBRARIES = _mytest.la
+_mytest_la_CFLAGS = $(PYTHON_CFLAGS) -I$(top_srcdir)/include $(PYTHON_CPPFLAGS)
+#link to the C-library
+#probably on Windows one will need to link against the python dll as well
+_mytest_la_LIBADD = ../src/mytest.la
+#the source code for our extensions module
+#nodist because this file will be generated by swig
+nodist__mytest_la_SOURCES = mytest_wrap.c
+#-module forces libtool to generate a dynamically loadable module
+_mytest_la_LDFLAGS = -avoid-version -module -shared -export-dynamic
+
+
+#nodist because this file will be generated by swig
+nodist_python_PYTHON = mytest.py
+
+#this line assumes that the swig interface file mytest.i is located in the src subdirectory
+mytest_wrap.c: $(top_srcdir)/src/mytest.i
+    $(SWIG) -I${top_srcdir}/include -includeall -o mytest_wrap.c -python ${top_srcdir}/src/mytest.i
+        
+mytest.py: mytest_wrap.c
+
+clean-local:
+    rm -rf mytest_wrap.c mytest.py mytest.pyc
+        
+endif</code></pre></noscript></div>
 
 
 

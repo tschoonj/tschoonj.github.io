@@ -64,6 +64,8 @@
     
         <li ><a href="/blog/archives/index.html">Archives</a></li>
     
+        <li ><a href="/blog/categories/index.html">Categories</a></li>
+    
         <li ><a href="/about/index.html">About</a></li>
     
 </ul>
@@ -651,6 +653,7 @@ var uninstall_option_translations  ; uninstall translations: yes, no (default)
 
 
 Function un.onInit
+    SetRegView 64
     ${GetOptions} &quot;$CMDLINE&quot; &quot;/remove_config=&quot; $uninstall_option_remove_config
     ${GetOptions} &quot;$CMDLINE&quot; &quot;/sideeffects=&quot; $uninstall_option_sideeffects
     ${GetOptions} &quot;$CMDLINE&quot; &quot;/dllpath=&quot; $uninstall_option_dllpath

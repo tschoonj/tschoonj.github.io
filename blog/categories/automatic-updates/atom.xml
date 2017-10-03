@@ -4,7 +4,7 @@
   <title><![CDATA[Category: automatic-updates | The Code Dungeon]]></title>
   <link href="http://tschoonj.github.io/blog/categories/automatic-updates/atom.xml" rel="self"/>
   <link href="http://tschoonj.github.io/"/>
-  <updated>2017-09-21T20:43:48+01:00</updated>
+  <updated>2017-10-03T12:34:36+01:00</updated>
   <id>http://tschoonj.github.io/</id>
   <author>
     <name><![CDATA[Tom Schoonjans]]></name>
@@ -198,7 +198,154 @@ However, this would mean a different solution for my Windows build&hellip;</p>
 It is taken from <a href="https://github.com/tschoonj/xmimsim/blob/master/bin/xmimsim-gui-updater.c">xmimsim-gui-updater.c</a>, which also contains code to download the new packages from a webserver (also using curl).</p>
 
 <p><div><script src='https://gist.github.com/5951294.js'></script>
-<noscript><pre><code></code></pre></noscript></div>
+<noscript><pre><code>#include &lt;curl/curl.h&gt;
+#include &lt;json-glib/json-glib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdlib.h&gt;
+
+
+/*
+ *
+ * This code allows for the checking of available updates by parsing the JSON output obtained
+ * through requesting the tags from the GitHub repo of XMI-MSIM
+ *
+ *
+ * compile with gcc -o github-updater `pkg-config --cflags json-glib-1.0 libcurl` github-updater.c `pkg-config --libs json-glib-1.0 libcurl`
+ *
+ *
+ */
+
+#define XMIMSIM_GITHUB_TAGS_LOCATION &quot;https://api.github.com/repos/tschoonj/xmimsim/git/refs/tags&quot;
+#define XMIMSIM_DOWNLOADS_LOCATION &quot;http://lvserver.ugent.be/xmi-msim&quot;
+#define PACKAGE_VERSION &quot;1.0&quot; 
+
+enum {
+        XMIMSIM_UPDATES_ERROR,
+        XMIMSIM_UPDATES_AVAILABLE,
+        XMIMSIM_UPDATES_NONE
+};
+
+struct MemoryStruct {
+        char *memory;
+        size_t size;
+};
+
+static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp) {
+        size_t realsize = size * nmemb;
+        struct MemoryStruct *mem = (struct MemoryStruct *)userp;
+        
+        mem-&gt;memory = realloc(mem-&gt;memory, mem-&gt;size + realsize + 1);
+                       
+        memcpy(&amp;(mem-&gt;memory[mem-&gt;size]), contents, realsize);
+        mem-&gt;size += realsize;
+        mem-&gt;memory[mem-&gt;size] = 0;
+        
+        return realsize;
+}
+
+static void check_version_of_tag(JsonArray *array, guint index, JsonNode *node, char **max_version) {
+        JsonObject *object = json_node_get_object(node);
+        if (!json_object_has_member(object,&quot;ref&quot;)) {
+                return;
+        }
+
+        const gchar *ref_string = json_object_get_string_member(object, &quot;ref&quot;);
+
+        //discard old tag...
+        if (strncmp(ref_string,&quot;refs/tags/XMI-MSIM-&quot;,strlen(&quot;refs/tags/XMI-MSIM-&quot;)) != 0)
+                return;
+
+        char *tag_version_str = strrchr(ref_string,&#39;-&#39;)+1;
+        gdouble tag_version = g_ascii_strtod(tag_version_str,NULL);
+        if (tag_version &gt; g_ascii_strtod(*max_version,NULL)) {
+                free(*max_version);
+                *max_version = strdup(tag_version_str);
+        }
+
+        return;
+}
+
+
+int check_for_updates(char **max_version_rv) {
+        GError *error = NULL;
+        JsonParser *parser;
+        char curlerrors[CURL_ERROR_SIZE];
+
+
+        CURL *curl;
+        CURLcode res;
+        struct MemoryStruct chunk;
+        
+        chunk.memory = malloc(1);
+        chunk.size = 0;
+
+        fprintf(stdout,&quot;checking for updates...\n&quot;);
+        
+        
+        curl = curl_easy_init();
+        if (!curl) {
+                fprintf(stderr,&quot;Could not initialize cURL\n&quot;);
+                return XMIMSIM_UPDATES_ERROR;
+        } 
+
+        curl_easy_setopt(curl, CURLOPT_URL,XMIMSIM_GITHUB_TAGS_LOCATION);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&amp;chunk);
+        curl_easy_setopt(curl, CURLOPT_USERAGENT, &quot;libcurl-agent/1.0&quot;);
+        curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, curlerrors);
+        curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 4L);
+        res = curl_easy_perform(curl);
+        if (res != 0) {
+                fprintf(stderr,&quot;check_for_updates: %s\n&quot;,curlerrors);
+                return XMIMSIM_UPDATES_ERROR;
+        }
+        curl_easy_cleanup(curl);
+        
+        
+                
+        
+        parser = json_parser_new();
+        if (json_parser_load_from_data(parser, chunk.memory, -1,&amp;error) ==  FALSE) {
+                if (error) {
+                        fprintf(stderr,&quot;check_for_updates: %s\n&quot;,error-&gt;message);
+                        return XMIMSIM_UPDATES_ERROR;
+                }
+        }
+        JsonNode *rootNode = json_parser_get_root(parser);
+        if(json_node_get_node_type(rootNode) != JSON_NODE_ARRAY) {
+                fprintf(stderr,&quot;check_for_updates: rootNode is not an Array\n&quot;);
+                return XMIMSIM_UPDATES_ERROR;
+        }
+        JsonArray *rootArray = json_node_get_array(rootNode);
+        char *max_version = g_strdup(PACKAGE_VERSION);
+        char *current_version = g_strdup(max_version);
+        json_array_foreach_element(rootArray, (JsonArrayForeach) check_version_of_tag, &amp;max_version);
+
+        int rv;
+        if (g_ascii_strtod(max_version, NULL) &gt; g_ascii_strtod(current_version, NULL))
+                rv = XMIMSIM_UPDATES_AVAILABLE;
+        else
+                rv = XMIMSIM_UPDATES_NONE;
+
+        *max_version_rv = strdup(g_strstrip(max_version));
+
+        g_object_unref(parser);
+        fprintf(stdout,&quot;done checking for updates\n&quot;);
+
+        return rv;
+}
+
+int main (int argc, char *argv[]) {
+  char *max_version;
+
+	int check = check_for_updates(&amp;max_version);
+
+	if (check == XMIMSIM_UPDATES_AVAILABLE) {
+		fprintf(stdout, &quot;Update available: now write some code to download the damn update\n&quot;);
+	}
+	return 0;
+}</code></pre></noscript></div>
 </p>
 ]]></content>
   </entry>

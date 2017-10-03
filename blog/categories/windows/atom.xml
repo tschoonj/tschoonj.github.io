@@ -4,7 +4,7 @@
   <title><![CDATA[Category: windows | The Code Dungeon]]></title>
   <link href="http://tschoonj.github.io/blog/categories/windows/atom.xml" rel="self"/>
   <link href="http://tschoonj.github.io/"/>
-  <updated>2017-09-21T20:43:48+01:00</updated>
+  <updated>2017-10-03T12:34:36+01:00</updated>
   <id>http://tschoonj.github.io/</id>
   <author>
     <name><![CDATA[Tom Schoonjans]]></name>
@@ -12,6 +12,151 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Conda-forge: creating Windows recipes for Autotools based Python projects]]></title>
+    <link href="http://tschoonj.github.io/blog/2017/10/01/conda-forge-creating-windows-compatible-recipes-for-autotools-based-python-projects/"/>
+    <updated>2017-10-01T10:44:30+01:00</updated>
+    <id>http://tschoonj.github.io/blog/2017/10/01/conda-forge-creating-windows-compatible-recipes-for-autotools-based-python-projects</id>
+    <content type="html"><![CDATA[<p>It is probably fair to say that <a href="https://www.anaconda.com/download/">Anaconda</a> has become the most popular Python distribution in scientific circles. This should not come as a surprise as it comes with many features that make it stand out from its competitors:</p>
+
+<ul>
+<li>a convenient installer</li>
+<li>allows for installing several versions of the Python interpreters side-by-side using environments</li>
+<li>has access to the most recent versions of many important (scientific) packages</li>
+<li>does not require admin privileges!</li>
+</ul>
+
+
+<p>Though Linux and macOS ship with their own Python interpreters, these are in many cases insufficient for development as access to the latest releases of Python packages is usually not possible with the default package managers (outdated packages only) or using <code>pip</code>, especially when binary extensions are required that depend on non-Python libraries.</p>
+
+<p>With Anaconda, it is quite easy to write and build new recipes for Python and non-Python software packages and upload them to a personal distribution channel. <a href="https://conda-forge.org">Conda-forge</a> makes this even easier: just write the recipe, open a pull request on GitHub, and wait for the continuous-integration buildbots to generate binary packages for Linux (<a href="https://circleci.com">Circle-CI</a>), macOS (<a href="https://travis-ci.org">Travis-CI</a>) and Windows (<a href="https://www.appveyor.com">AppVeyor</a>). After merging the pull request on GitHub, the binary packages will be automatically uploaded to the conda-forge channel, at which point they become available to all Anaconda users by executing the command:</p>
+
+<pre><code class="bash">conda install --channel conda-forge my-package
+</code></pre>
+
+<p>This procedure works fine as long as the installation script for the Python package uses distutils or setuptools, as it ensures that all files are installed in the appropriate location and that any binary extensions are compiled with the same compiler that was used to compile the Python interpreter. But what happens when the Python package uses a different buildsystem?</p>
+
+<p>Enters my personal flagship project <a href="https://github.com/tschoonj/xraylib">xraylib</a>, a library providing convenient access to physical databases relevant in the field of X-ray physics. This library consists of a core shared library, written in ANSI-C, and comes with bindings for about a dozen of other languages such as Perl, IDL, Ruby, Lua, Fortran, and of course Python. In fact there are two Python bindings: the first extension module is generated with <a href="http://swig.org">SWIG</a> (deals with scalar arguments) and the second one with <a href="http://cython.org">Cython</a> (deals with NumPy arrays as arguments).
+In order to support building the core library as well as the many bindings using a single build and installation system (and thereby ignoring the recommended build systems each of these languages bindings has for binary extensions), I use Autotools, which consists of <a href="http://www.gnu.org/software/autoconf/autoconf.html">Autoconf</a>, <a href="https://www.gnu.org/software/automake/">Automake</a> and <a href="https://www.gnu.org/software/libtool/">Libtool</a>. Libtool is key in this setup, as it enables building both shared libraries (the core C library as well as the Fortran bindings) as well as dynamically loadable plugins (Python, Perl, Lua, Ruby and IDL bindings), in a platform-independent manner! See also <a href="https://tschoonj.github.io/blog/2013/09/04/building-libtool-modules-python-bindings/">this old blogpost</a> if you are interested in reading how I accomplished this for the Python bindings.</p>
+
+<p>A typical autotools project may be built and installed through the following three commands (after unpacking the source tarball):</p>
+
+<pre><code class="bash">./configure
+make
+make install
+</code></pre>
+
+<p>The xraylib configure script figures out where the Python extensions need to be installed in the last command, thereby ensuring they will get picked up by the interpreter without fooling around with the PYTHONPATH environment variable. This works well in a conda recipe on both macOS and Linux, and has led to several people uploading xraylib packages to their personal conda channels for these two platforms.</p>
+
+<p>Windows however is an entirely different beast.</p>
+
+<p>Over the years, many have asked me to come up with providing better Python support for xraylib on Windows, in particular via pip and conda, as the Python binary extensions I provide in my xraylib Windows SDKs do not integrate easily with Python interpreters, in particular due to their dependency on specific NumPy versions.</p>
+
+<!-- more -->
+
+
+<p>Several major obstacles needed to be addressed before successfully generating xraylib’s Python extensions on Windows with a conda recipe. The AppVeyor buildbots offer only a Windows <code>cmd.exe</code> shell to perform the build, as well as the compilers and linkers that are provided by Visual Studio, Microsoft’s integrated development environment, and of course the Python interpreters.</p>
+
+<p>The first major obstacle one has to overcome when running the three commands on Windows is that it does not come with a Bash compatible shell. This is a big problem since the configure script is in fact a Bash shell script, which also expects several basic UNIX utilities to be present such as cat, rm, mkdir, grep, sed,…, but which are missing.
+Secondly, there is the compiler problem. Microsoft has its own development suite Visual Studio, which contains a compiler <code>cl.exe</code> suitable for both C and C++ code as well as a linker <code>link.exe</code>, which links the object code together in an executable or library. This compiler and linker are not supported by Autotools, and there is no way around this (to the best of my knowledge). So we need to use a different compiler, one which plays nicely with Autotools: gcc (MinGW-w64!) or clang, neither of which is present on a Windows system by default.
+This brings us immediately to the next problem: the <code>ld.exe</code> linker that is part of MinGW-w64 does not like the import libraries (<code>libs\pythonxy.lib</code>) for the Python DLLs and refuses to link the extensions against these libraries. This is due to the fact that the official Python releases for Windows are compiled with Visual Studio, and that Python really only supports building extensions on this platform using the <code>cl.exe</code> compiler, so they didn’t bother including an <code>ld.exe</code> compatible import library.</p>
+
+<p>Until recently, there was no way to solve any of this. But then <a href="https://github.com/mingwandroid">Ray Donnelly</a> of Continuum Analytics (the company behind Anaconda) generated conda recipes for the MinGW-w64 compilers and toolchain and added them to the default conda channel. For this effort, he relied extensively on his previous work for the <a href="http://www.msys2.org">MSYS2</a> project, which provides Windows users with a Bash shell as well as access to a large number of Unix/Linux utilities as well as software package management through <code>pacman</code>. Fortunately, he also added a conda recipe for the Bash shell, thereby solving my first problem, as I can now launch <code>bash.exe</code> from the Windows cmd.exe that is used by the AppVeyor buildbot.</p>
+
+<p>Now after updating the conda recipe (meta.yaml) with the required build dependencies, the next step was to generate the correct bld.bat file containing the commands necessary to generate the bindings.</p>
+
+<pre><code class="batch https://github.com/conda-forge/xraylib-feedstock/blob/master/recipe/bld.bat">IF "%ARCH%" == "64" (
+set GCC_ARCH=x86_64-w64-mingw32
+set EXTRA_FLAGS=-DMS_WIN64
+) else (
+set GCC_ARCH=i686-w64-mingw32
+)
+bash -lc "ln -s ${LOCALAPPDATA}/Temp /tmp"
+bash -lc "curl -L -O https://downloads.sourceforge.net/project/swig/swig/swig-3.0.12/swig-3.0.12.tar.gz &amp;&amp; tar xfz swig-3.0.12.tar.gz &amp;&amp; cd swig-3.0.12 &amp;&amp; ./configure --build=$GCC_ARCH --host=$GCC_ARCH --target=$GCC_ARCH --without-perl5 --without-guile --disable-ccache --prefix=/mingw-w64 &amp;&amp; make &amp;&amp; make install"
+bash -lc "gendef ${PREFIX}/python${CONDA_PY}.dll &amp;&amp; dlltool -l libpython${CONDA_PY}.a -d python${CONDA_PY}.def -k -A"
+bash -lc "autoreconf -fi &amp;&amp; ./configure --disable-static --build=$GCC_ARCH --host=$GCC_ARCH --target=$GCC_ARCH --enable-python-integration --disable-fortran2003 --enable-python --prefix=`cygpath -u $PREFIX` --bindir=`cygpath -u $LIBRARY_BIN` --libdir=`cygpath -u $LIBRARY_LIB` PYTHON=`which python` SWIG=`which swig` CPPFLAGS=$EXTRA_FLAGS LIBS=-L$PWD"
+bash -lc "make"
+bash -lc "make install"
+bash -lc "mv $PREFIX/Library/usr/bin/libxrl-7.dll $PREFIX/Library/bin/"
+bash -lc "rm -r $PREFIX/include/xraylib"
+bash -lc "rm -rf $PREFIX/Library/tmp"
+bash -lc "rm `cygpath -u $LIBRARY_BIN`/xraylib"
+bash -lc "rm `cygpath -u $LIBRARY_LIB`/libxrl.la"
+bash -lc "rm `cygpath -u $LIBRARY_LIB`/pkgconfig/libxrl.pc"
+bash -lc "rm `cygpath -u $SP_DIR`/*.la"
+bash -lc "rm `cygpath -u $SP_DIR`/*.dll.a"
+bash -lc "rm `cygpath -u $SP_DIR`/xrayhelp.py*"
+bash -lc "rm `cygpath -u $SP_DIR`/xraymessages.py*"
+bash -lc "rm -r $PREFIX/share/xraylib"
+bash -lc "cd swig-3.0.12 &amp;&amp; make uninstall"
+bash -lc "rm -rf /mingw-w64/share/swig"
+</code></pre>
+
+<p>Let’s have a closer look at what these lines actually do.</p>
+
+<pre><code class="batch">IF "%ARCH%" == "64" (
+set GCC_ARCH=x86_64-w64-mingw32
+set EXTRA_FLAGS=-DMS_WIN64
+) else (
+set GCC_ARCH=i686-w64-mingw32
+)
+</code></pre>
+
+<p>Set shell variable <code>GCC_ARCH</code> to ensure that the right compiler is invoked for the architecture the Python interpreter was built for. Note the presence of an additional preprocessor flag <code>-DMS_WIN64</code>, necessary to avoid a linker error when <a href="https://stackoverflow.com/questions/2842469/python-undefined-reference-to-imp-py-initmodule4">compiling 64-bit Python plugins on Windows.</a></p>
+
+<pre><code class="batch">bash -lc "ln -s ${LOCALAPPDATA}/Temp /tmp"
+</code></pre>
+
+<p>Ensure there’s a /tmp folder. I notice that a lot of the Unix utilities complain when this folder is absent.</p>
+
+<pre><code class="batch">bash -lc "curl -L -O https://downloads.sourceforge.net/project/swig/swig/swig-3.0.12/swig-3.0.12.tar.gz &amp;&amp; tar xfz swig-3.0.12.tar.gz &amp;&amp; cd swig-3.0.12 &amp;&amp; ./configure --build=$GCC_ARCH --host=$GCC_ARCH --target=$GCC_ARCH --without-perl5 --without-guile --disable-ccache --prefix=/mingw-w64 &amp;&amp; make &amp;&amp; make install"
+</code></pre>
+
+<p>Download, compile and install swig, which is a hard requirement to compile the bindings, but unfortunately was not added by Ray Donnelly to the conda channel.</p>
+
+<pre><code class="batch">bash -lc "gendef ${PREFIX}/python${CONDA_PY}.dll &amp;&amp; dlltool -l libpython${CONDA_PY}.a -d python${CONDA_PY}.def -k -A"
+</code></pre>
+
+<p>Generate a definitions file out of the python dll with gendef and turn it into an import library with dlltool. This will allow our binary plugins to link against the python dll when using the ld linker (problem 3!)</p>
+
+<pre><code class="batch">bash -lc "autoreconf -fi &amp;&amp; ./configure --disable-static --build=$GCC_ARCH --host=$GCC_ARCH --target=$GCC_ARCH --enable-python-integration --disable-fortran2003 --enable-python --prefix=`cygpath -u $PREFIX` --bindir=`cygpath -u $LIBRARY_BIN` --libdir=`cygpath -u $LIBRARY_LIB` PYTHON=`which python` SWIG=`which swig` CPPFLAGS=$EXTRA_FLAGS LIBS=-L$PWD"
+</code></pre>
+
+<p>Autoreconf and configure xraylib, while setting the appropriate options. Notice the presence of the <code>cygpath</code> command, which is necessary to convert conda’s environment variables containing Windows style paths to Unix style paths. The last option LIBS=-L$PWD is used to ensure that the linker finds the python import library that was created by the previous command.</p>
+
+<pre><code class="batch">bash -lc "make"
+bash -lc "make install"
+</code></pre>
+
+<p>Compile and install the bindings</p>
+
+<pre><code class="batch">bash -lc "mv $PREFIX/Library/usr/bin/libxrl-7.dll $PREFIX/Library/bin/"
+</code></pre>
+
+<p>Move the xraylib core dll to a folder that is picked up by the PATH variable of an Anaconda installation.</p>
+
+<pre><code class="batch">bash -lc "rm -r $PREFIX/include/xraylib"
+bash -lc "rm -rf $PREFIX/Library/tmp"
+bash -lc "rm `cygpath -u $LIBRARY_BIN`/xraylib"
+bash -lc "rm `cygpath -u $LIBRARY_LIB`/libxrl.la"
+bash -lc "rm `cygpath -u $LIBRARY_LIB`/pkgconfig/libxrl.pc"
+bash -lc "rm `cygpath -u $SP_DIR`/*.la"
+bash -lc "rm `cygpath -u $SP_DIR`/*.dll.a"
+bash -lc "rm `cygpath -u $SP_DIR`/xrayhelp.py*"
+bash -lc "rm `cygpath -u $SP_DIR`/xraymessages.py*"
+bash -lc "rm -r $PREFIX/share/xraylib"
+bash -lc "cd swig-3.0.12 &amp;&amp; make uninstall"
+bash -lc "rm -rf /mingw-w64/share/swig"
+</code></pre>
+
+<p>Cleanup redundant files, to avoid them from being packaged into the conda tarballs that will get uploaded.</p>
+
+<p>It should also be mentioned that <a href="https://github.com/tschoonj/xraylib/commit/dcc2b83004e95064a4f6a5d3ca8727f3819b6bfa">considerable changes</a> were necessary to the configure.ac Autoconf script of xraylib, as well as to some of its auxiliary macros (in the m4 subdirectory). This was mostly to ensure that the Windows style paths as returned by the Python interpreter when querying for installation information, would be turned into Unix style paths using <code>cygpath</code>.</p>
+
+<p>For those interested in more information, please have a look at the <a href="https://github.com/conda-forge/xraylib-feedstock">conda-forge xraylib feedstock repository</a>, as well as the <a href="https://github.com/tschoonj/xraylib">xraylib repository</a> itself.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[HDF5 on Windows: UTF-8 filenames support]]></title>

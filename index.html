@@ -64,6 +64,8 @@
     
         <li ><a href="/blog/archives/index.html">Archives</a></li>
     
+        <li ><a href="/blog/categories/index.html">Categories</a></li>
+    
         <li ><a href="/about/index.html">About</a></li>
     
 </ul>
@@ -109,6 +111,102 @@
 
 <div class="blog-index">
   
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2 post-meta">
+	  <h5 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2017-10-01T10:44:30+01:00" pubdate data-updated="true"></time></h5>
+          <div class="row-fluid">
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="/blog/categories/python/"><span class="badge">python</span></a>
+          
+          <a href="/blog/categories/conda-forge/"><span class="badge">conda-forge</span></a>
+          
+          <a href="/blog/categories/anaconda/"><span class="badge">anaconda</span></a>
+          
+          <a href="/blog/categories/autotools/"><span class="badge">autotools</span></a>
+          
+          <a href="/blog/categories/windows/"><span class="badge">windows</span></a>
+          
+          <a href="/blog/categories/python-bindings/"><span class="badge">python-bindings</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10 post-container">
+      <h1 class="link"><a href="/blog/2017/10/01/conda-forge-creating-windows-compatible-recipes-for-autotools-based-python-projects/">Conda-forge: creating Windows recipes for Autotools based Python projects</a></h1>
+      <p>It is probably fair to say that <a href="https://www.anaconda.com/download/">Anaconda</a> has become the most popular Python distribution in scientific circles. This should not come as a surprise as it comes with many features that make it stand out from its competitors:</p>
+
+<ul>
+<li>a convenient installer</li>
+<li>allows for installing several versions of the Python interpreters side-by-side using environments</li>
+<li>has access to the most recent versions of many important (scientific) packages</li>
+<li>does not require admin privileges!</li>
+</ul>
+
+
+<p>Though Linux and macOS ship with their own Python interpreters, these are in many cases insufficient for development as access to the latest releases of Python packages is usually not possible with the default package managers (outdated packages only) or using <code>pip</code>, especially when binary extensions are required that depend on non-Python libraries.</p>
+
+<p>With Anaconda, it is quite easy to write and build new recipes for Python and non-Python software packages and upload them to a personal distribution channel. <a href="https://conda-forge.org">Conda-forge</a> makes this even easier: just write the recipe, open a pull request on GitHub, and wait for the continuous-integration buildbots to generate binary packages for Linux (<a href="https://circleci.com">Circle-CI</a>), macOS (<a href="https://travis-ci.org">Travis-CI</a>) and Windows (<a href="https://www.appveyor.com">AppVeyor</a>). After merging the pull request on GitHub, the binary packages will be automatically uploaded to the conda-forge channel, at which point they become available to all Anaconda users by executing the command:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>conda install --channel conda-forge my-package
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This procedure works fine as long as the installation script for the Python package uses distutils or setuptools, as it ensures that all files are installed in the appropriate location and that any binary extensions are compiled with the same compiler that was used to compile the Python interpreter. But what happens when the Python package uses a different buildsystem?</p>
+
+<p>Enters my personal flagship project <a href="https://github.com/tschoonj/xraylib">xraylib</a>, a library providing convenient access to physical databases relevant in the field of X-ray physics. This library consists of a core shared library, written in ANSI-C, and comes with bindings for about a dozen of other languages such as Perl, IDL, Ruby, Lua, Fortran, and of course Python. In fact there are two Python bindings: the first extension module is generated with <a href="http://swig.org">SWIG</a> (deals with scalar arguments) and the second one with <a href="http://cython.org">Cython</a> (deals with NumPy arrays as arguments).
+In order to support building the core library as well as the many bindings using a single build and installation system (and thereby ignoring the recommended build systems each of these languages bindings has for binary extensions), I use Autotools, which consists of <a href="http://www.gnu.org/software/autoconf/autoconf.html">Autoconf</a>, <a href="https://www.gnu.org/software/automake/">Automake</a> and <a href="https://www.gnu.org/software/libtool/">Libtool</a>. Libtool is key in this setup, as it enables building both shared libraries (the core C library as well as the Fortran bindings) as well as dynamically loadable plugins (Python, Perl, Lua, Ruby and IDL bindings), in a platform-independent manner! See also <a href="https://tschoonj.github.io/blog/2013/09/04/building-libtool-modules-python-bindings/">this old blogpost</a> if you are interested in reading how I accomplished this for the Python bindings.</p>
+
+<p>A typical autotools project may be built and installed through the following three commands (after unpacking the source tarball):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>./configure
+</span><span class='line'>make
+</span><span class='line'>make install
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The xraylib configure script figures out where the Python extensions need to be installed in the last command, thereby ensuring they will get picked up by the interpreter without fooling around with the PYTHONPATH environment variable. This works well in a conda recipe on both macOS and Linux, and has led to several people uploading xraylib packages to their personal conda channels for these two platforms.</p>
+
+<p>Windows however is an entirely different beast.</p>
+
+<p>Over the years, many have asked me to come up with providing better Python support for xraylib on Windows, in particular via pip and conda, as the Python binary extensions I provide in my xraylib Windows SDKs do not integrate easily with Python interpreters, in particular due to their dependency on specific NumPy versions.</p>
+
+
+      
+       <a href="/blog/2017/10/01/conda-forge-creating-windows-compatible-recipes-for-autotools-based-python-projects/">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
   
   
     <article>
@@ -194,7 +292,7 @@ I have found GSL and FGSL to offer both an elegant interface as well as excellen
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2015-07-05T16:22:39+01:00" pubdate data-updated="true"></time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2015-07-05T17:22:39+02:00" pubdate data-updated="true"></time></h5>
           <div class="row-fluid">
           
           </div>
@@ -374,7 +472,7 @@ I have found GSL and FGSL to offer both an elegant interface as well as excellen
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2014-05-10T14:08:11+01:00" pubdate data-updated="true"></time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2014-05-10T15:08:11+02:00" pubdate data-updated="true"></time></h5>
           <div class="row-fluid">
           
           </div>
@@ -638,68 +736,10 @@ Recently, I have become a minor contributor of this project, and I have been par
 
     </article>
     
-    <hr>
-    
-  
-  
-    <article>
-      
-
-  <div class="row-fluid">
-    <div class="span2 post-meta">
-	  <h5 class="date-time">
-
-
-
-
-
-
-
-
-  
-
-
-<i class="icon-calendar-empty"></i> <time datetime="2013-07-08T19:39:00+01:00" pubdate data-updated="true"></time></h5>
-          <div class="row-fluid">
-          
-          </div>
-          
-          <div class="row-fluid">
-          
-          <a href="/blog/categories/github/"><span class="badge">github</span></a>
-          
-          <a href="/blog/categories/git-tag/"><span class="badge">git-tag</span></a>
-          
-          <a href="/blog/categories/curl/"><span class="badge">curl</span></a>
-          
-          <a href="/blog/categories/json-glib/"><span class="badge">json-glib</span></a>
-          
-          <a href="/blog/categories/automatic-updates/"><span class="badge">automatic-updates</span></a>
-          
-          </div>
-          
-    </div>
-    <div class="span10 post-container">
-      <h1 class="link"><a href="/blog/2013/07/08/checking-for-updates-using-git-tags/">Checking for updates using git tags</a></h1>
-      <p>At some point during the development of version 2.0 of my software package <a href="http://github.com/tschoonj/xmimsim">XMI-MSIM</a>, I decided to implement a routine that would allow for the program to check if newer versions (updates) were available. This would be extremely useful for the users of the Windows and Mac OS X builds of my package, since these operating systems do not come with package-management tools as most Linux distributions do (I am staying far away from Mac App Store and Windows store as I am not willing to pay their developer fees).</p>
-
-<p>Initially I was looking at <a href="http://sparkle.andymatuschak.org">Sparkle</a>, a fantastic tool for OS X apps.
-However, this would mean a different solution for my Windows build&hellip;</p>
-
-<p>Since my goal is to keep the platform specific code as low as possible (#ifdef&rsquo;s really are quite ugly things), obviously I had to come up with a different solution.</p>
-
-
-      
-       <a href="/blog/2013/07/08/checking-for-updates-using-git-tags/">Read on &rarr;</a> 
-    </div>
-  </div>
-
-
-
-    </article>
-    
   
   <div class="pagination">
+    
+    <a class="prev" href="2">&larr; Older</a>
     
 
     

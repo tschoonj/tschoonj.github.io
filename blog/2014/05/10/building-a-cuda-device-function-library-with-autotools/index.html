@@ -64,6 +64,8 @@
     
         <li ><a href="/blog/archives/index.html">Archives</a></li>
     
+        <li ><a href="/blog/categories/index.html">Categories</a></li>
+    
         <li ><a href="/about/index.html">About</a></li>
     
 </ul>
@@ -112,7 +114,7 @@
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2014-05-10T14:08:11+01:00" pubdate data-updated="true"></time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2014-05-10T15:08:11+02:00" pubdate data-updated="true"></time></h5>
   </div>
 </header>
   <div class="row-fluid">
@@ -204,7 +206,7 @@ This is not nearly as bad is at sounds: it will make the Makefile.am considerabl
 </span><span class='line'><span class="nv">libxrlcuda_a_AR</span> <span class="o">=</span> <span class="k">$(</span>NVCC<span class="k">)</span> -arch<span class="o">=</span>sm_20 -lib -o
 </span><span class='line'>
 </span><span class='line'>
-</span><span class='line'><span class="nf">.cu.o</span><span class="o">:</span> <span class="m">xraylib-cuda.h xraylib-cuda-private.h</span>
+</span><span class='line'><span class="nf">.cu.o</span><span class="o">:</span> <span class="n">xraylib</span>-<span class="n">cuda</span>.<span class="n">h</span> <span class="n">xraylib</span>-<span class="n">cuda</span>-<span class="n">private</span>.<span class="n">h</span>
 </span><span class='line'>  <span class="k">$(</span>NVCC<span class="k">)</span> <span class="k">$(</span>libxrlcuda_a_CFLAGS<span class="k">)</span> -arch<span class="o">=</span>sm_20 -dc -o <span class="nv">$@</span> <span class="nv">$&lt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="cp">endif</span>
@@ -222,7 +224,7 @@ Two other things really set this file apart from typical Makefile.am&rsquo;s:</p
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='makefile'><span class='line'><span class="nf">.cu.o</span><span class="o">:</span> <span class="m">xraylib-cuda.h xraylib-cuda-private.h</span>
+</pre></td><td class='code'><pre><code class='makefile'><span class='line'><span class="nf">.cu.o</span><span class="o">:</span> <span class="n">xraylib</span>-<span class="n">cuda</span>.<span class="n">h</span> <span class="n">xraylib</span>-<span class="n">cuda</span>-<span class="n">private</span>.<span class="n">h</span>
 </span><span class='line'>  <span class="k">$(</span>NVCC<span class="k">)</span> <span class="k">$(</span>libxrlcuda_a_CFLAGS<span class="k">)</span> -arch<span class="o">=</span>sm_20 -dc -o <span class="nv">$@</span> <span class="nv">$&lt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -263,10 +265,10 @@ Here are the relevant sections of this file that deal with the cuda bindings exa
 </span><span class='line'>  <span class="nv">TESTS_ENVIRONMENT</span> <span class="o">=</span> <span class="nv">DYLD_LIBRARY_PATH</span><span class="o">=</span><span class="s2">&quot;$(CUDA_LIBDIR)&quot;</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="s2">&quot;$(CUDA_LIBDIR)&quot;</span>
 </span><span class='line'><span class="cp">endif</span>
 </span><span class='line'>
-</span><span class='line'><span class="nf">.cu.o</span><span class="o">:</span> <span class="m">../cuda/libxrlcuda.a</span>
+</span><span class='line'><span class="nf">.cu.o</span><span class="o">:</span> ../<span class="n">cuda</span>/<span class="n">libxrlcuda</span>.<span class="n">a</span>
 </span><span class='line'>  <span class="k">$(</span>NVCC<span class="k">)</span> <span class="k">$(</span>xrlexample11_CFLAGS<span class="k">)</span> -arch<span class="o">=</span>sm_20 -dc -o <span class="nv">$@</span> <span class="nv">$&lt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="nf">xrlcudalink.o</span><span class="o">:</span> <span class="m">xrlexample11.o ../cuda/libxrlcuda.a</span>
+</span><span class='line'><span class="nf">xrlcudalink.o</span><span class="o">:</span> <span class="n">xrlexample</span>11.<span class="n">o</span> ../<span class="n">cuda</span>/<span class="n">libxrlcuda</span>.<span class="n">a</span>
 </span><span class='line'>  <span class="k">$(</span>NVCC<span class="k">)</span> -arch<span class="o">=</span>sm_20 -dlink xrlexample11.o ../cuda/libxrlcuda.a -o xrlcudalink.o
 </span></code></pre></td></tr></table></div></figure>
 
