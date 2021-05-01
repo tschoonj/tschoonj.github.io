@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Monitoring Ceph buckets with Python"
+title: "Monitoring Ceph S3 buckets with Python"
 date: 2021-05-01 13:40:30 +0000
 comments: true
 author: Tom Schoonjans
